@@ -8,7 +8,6 @@ import friendsIcon from '../assets/friends.png'
 import { RiArrowRightSLine } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import { FaUserFriends } from 'react-icons/fa'
-import Navbar from '../Navbar'
 
 
 function Friends() {

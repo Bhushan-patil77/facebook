@@ -7,6 +7,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './home/Home'
 import Friends from './friends/Friends'
 import Groups from './groups/Groups'
+import ProtectedRout from './ProtectedRout'
 
 function App() {
   const location = useLocation()
@@ -18,19 +19,20 @@ function App() {
 
   return (
     <>
-       {
-        localStorage.getItem('user')!=null && <Navbar/>
-       }
-
+      
+      <Navbar/>
       <Routes>
 
-        <Route path='/Signup' element={<Signup/>} />
         <Route path='/Login' element={<Login/>} />
-        <Route path='/' element={<Home/>} />
-        <Route path='/Friends' element={<Friends/>} />
-        <Route path='/Groups' element={<Groups/>} />
 
+        <Route element={<ProtectedRout/>}>
+          <Route path='/' element={<Home/>} />
+          <Route path='/Friends' element={<Friends/>} />
+          <Route path='/Groups' element={<Groups/>} />
+        </Route>
+ 
       </Routes>
+      
     </>
   )
 }
