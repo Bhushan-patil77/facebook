@@ -1,0 +1,64 @@
+.show{
+    transition: all;
+    transition-duration: 300ms;
+    overflow-y: auto;
+    
+}
+
+.hide{
+    transition: all;
+    transition-duration: 300ms;
+    /* opacity: 0; */
+    /* visibility: hidden; */
+}
+
+.showFromTop{
+    transition: all;
+    transition-duration: 300ms;
+    opacity: 100;
+    transform: translateY(5px);
+}
+
+.hideFromBottom{
+    transition: all;
+    transition-duration: 300ms;
+    opacity: 0;
+    transform: translateY(-20px);
+    visibility: hidden;
+}
+
+.bottom-shadow{
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); 
+}
+
+
+
+
+/* Add this to your CSS file */
+@keyframes fadeIn {
+    from {
+      scale: 0;
+      opacity: 0;
+    }
+    to {
+      scale: 1;
+      opacity: 1;
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 500ms ease-in-out;
+  }
+  
+
+  .delay-1 {
+    animation-delay: 0s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}

@@ -1,0 +1,38 @@
+import React from 'react'
+import friendRequestIcons from '../assets/friendRequestsIcon.png'
+import friendSuggestionsIcon from '../assets/friendSuggestionsIcon.png'
+import allFriendsIcon from '../assets/allFriendsIcon.png'
+import birthdaysIcon from '../assets/birthdaysIcon.png'
+import settisngIcon from '../assets/settingsIcon.png'
+import friendsIcon from '../assets/friends.png'
+import { RiArrowRightSLine } from 'react-icons/ri'
+import { IoIosArrowForward } from 'react-icons/io'
+import { FaUserFriends } from 'react-icons/fa'
+import Navbar from '../Navbar'
+
+
+function Friends() {
+  return (
+    <>
+    
+    <div className='bg-[#f0f2f5] w-screen border-1 border-red-500 h-[720px] py-1 flex justify-between'>
+
+      <div className="left bg-white rounded-lg flex flex-col w-[22%] h-full p-2 ">
+        <div className=' w-full flex justify-between p-2'><p className='font-bold text-2xl'>Friends</p> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-300 rounded-full'> <img className='w-5' src={settisngIcon}  alt="" /> </span></div>
+        <ul>
+          <li className='flex items-center gap-3 rounded-lg p-2 bg-slate-100'> <span className='flex justify-center items-center w-[36px] h-[36px] bg-blue-500 rounded-full'> <FaUserFriends className='w-[25px] h-[25px] text-white' />  </span>  <p className='text-lg '>Home</p></li>
+          <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={friendRequestIcons} alt="" />  </span>  <p className='text-lg '>Friend Requests</p> <IoIosArrowForward className='absolute right-0' /></li>
+          <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={friendSuggestionsIcon} alt="" />  </span>  <p className='text-lg '>Suggestions</p> <IoIosArrowForward className='absolute right-0' /></li>
+          <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={allFriendsIcon} alt="" />  </span>  <p className='text-lg '>All friends</p> <IoIosArrowForward className='absolute right-0' /></li>
+          <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={birthdaysIcon} alt="" />  </span>  <p className='text-lg '>Birthdays</p> <IoIosArrowForward className='absolute right-0' /></li>
+        </ul>
+      </div>
+
+      <div className="right bg-white rounded-lg w-[77%] h-full border border-black"></div>
+
+    </div>
+    </>
+  )
+}
+
+export default Friends
