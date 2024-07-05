@@ -52,7 +52,7 @@ function Navbar() {
   }, [child, parent]);
 
   useEffect(()=>{
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
   },[isLoggedIn])
 
 

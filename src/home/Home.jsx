@@ -19,8 +19,6 @@ import Navbar from '../Navbar'
 import { useLocation } from 'react-router-dom'
 
 function Home() {
-    const param = useLocation()
-    console.log(param.state);
     const [seeMore, setSeeMore]=useState(false)
   return (
 

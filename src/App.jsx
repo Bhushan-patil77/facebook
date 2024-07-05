@@ -10,11 +10,10 @@ import Groups from './groups/Groups'
 
 function App() {
   const location = useLocation()
-  console.log(location.state);
-  const [loggedIn, setLoggedIn]=useState()
+  const [loggedIn, setLoggedIn]=useState(localStorage.getItem('user')!==null)
 
   useEffect(()=>{
-    setLoggedIn(localStorage.getItem('user')!=null)
+    console.log(loggedIn);
   },[])
 
   return (
