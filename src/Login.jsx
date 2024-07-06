@@ -58,6 +58,7 @@ function Login({setisloggedin,setpopupshow}) {
                 navigate('/')
                 
                 
+                
               }
 
               if (response.status === "fail") {
@@ -105,7 +106,7 @@ function Login({setisloggedin,setpopupshow}) {
 
           <div className="border w-full "></div>
 
-          <button className='border w-[45%] h-[50px] mt-4 rounded-lg text-white bg-[#42b72a] font-bold'>Create new account</button>
+          <button className='border w-[45%] h-[50px] mt-4 rounded-lg text-white bg-[#42b72a] font-bold' onClick={()=>{navigate('/Signup')}}>Create new account</button>
         </div>
 
       </div>
