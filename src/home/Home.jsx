@@ -18,10 +18,11 @@ import { IoIosArrowDown } from 'react-icons/io'
 import Navbar from '../Navbar'
 import { json, useLocation } from 'react-router-dom'
 
-const user = JSON.parse(localStorage.getItem('user'))
 
 function Home() {
     const [seeMore, setSeeMore]=useState(false)
+    const user = JSON.parse(localStorage.getItem('user'))
+
   return (
 
     <>

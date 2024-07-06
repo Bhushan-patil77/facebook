@@ -105,7 +105,7 @@ function Login({setisloggedin,setpopupshow}) {
           <form className='w-full flex flex-col gap-3' onSubmit={handleSubmit}>
 
             <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="text" placeholder='Email address or phone number' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
-            <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="text" placeholder='Password' value={pass} onChange={(e)=>{setPass(e.target.value)}} />
+            <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="password" placeholder='Password' value={pass} onChange={(e)=>{setPass(e.target.value)}} />
             <button type='submit' className='w-full h-[50px] bg-[#0866ff] rounded-lg text-white text-lg font-bold'>Log in</button>
 
           </form>

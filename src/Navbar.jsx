@@ -25,7 +25,6 @@ function Navbar() {
   const [activeLink , setActiveLink]=useState('/')
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null);
   const [user, setUser]=useState(JSON.parse(localStorage.getItem('user')))
-  console.log(user.name);
 
   const navigate = useNavigate()
 
@@ -103,7 +102,7 @@ function Navbar() {
            
            {
                        isLoggedIn && <div className={`relative flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`}  onClick={(e)=>{handleButtonClick(e, profileDropdown)}}>
-                                          <span className='font-semibold'>{user.name}</span> <div className="flex justify-center items-center bg-[#e4e6eb] w-[40px] h-[40px] rounded-full"><BiSolidUser className='w-[70%] h-[70%] text-white' /> </div>
+                                          <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"><BiSolidUser className='w-[70%] h-[70%] text-white' /> </div>
                                           <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg shadow top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop' : 'hideFromBottom'}`}>
 
                                               <div className='flex justify-center m-3'>
