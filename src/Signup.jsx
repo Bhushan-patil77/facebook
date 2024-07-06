@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoClose, IoCloseOutline } from 'react-icons/io5';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import './styles/Custom.css'
+import { useNavigate } from 'react-router-dom';
 
 
 function Signup({setisloggedin,setpopupshow}) {
@@ -24,6 +25,8 @@ function Signup({setisloggedin,setpopupshow}) {
   const [days, setDays]=useState(new Date(year, month, 0).getDate());
   const [localLoggedIn , setLocalLoggedIn]=useState()
   const [openned, setOpenned]=useState();
+
+  const navigate = useNavigate()
 
   const dayDropdown = useRef()
   const monthDropdown = useRef()
@@ -86,14 +89,23 @@ const handleSubmit = (e) =>{
 
   const mobileNumber = e.target[0].value;
   const newPassword = e.target[1].value;
-  const day = e.target[3].value;
-  const month = e.target[5].value;
-  const year = e.target[7].value;
-  const firstName = e.target[8].value;
-  const surname = e.target[9].value;
+  const day = e.target[2].value;
+  const month = e.target[3].value;
+  const year = e.target[4].value;
+  const firstName = e.target[5].value;
+  const surname = e.target[6].value;
 
   const Form = document.getElementById('form');
   const gender = Form.querySelector('input[name="gender"]:checked').value;
+
+
+  console.log('0', e.target[0].value);
+  console.log('1', e.target[1].value);
+  console.log('2', e.target[2].value);
+  console.log('3', e.target[3].value);
+  console.log('4', e.target[4].value);
+  console.log('5', e.target[5].value);
+  console.log('6', e.target[6].value);
 
 
 
@@ -106,6 +118,7 @@ const handleSubmit = (e) =>{
 
     if (mobileNumber && newPassword && day && month && year && firstName && surname && gender) {
       try {
+        console.log('tried');
         var response = await fetch(baseUrl, {
           method: "post",
           headers: {
@@ -128,15 +141,15 @@ const handleSubmit = (e) =>{
           localStorage.setItem("user", JSON.stringify(response.data.user))
           localStorage.setItem('userInfo', JSON.stringify({'Name': firstName, 'Surname': surname, 'Gender': gender ,'DOB': `${day}/${month}/${year}`}))
           localStorage.setItem("token", response.token)
-          setisloggedin(true)
-          setLocalLoggedIn(true)
-          setpopupshow('')
+          console.log('navigating to home');
+          navigate('/Home')
         }
 
         if (response.status === "fail") {
           alert(response.message)
         }
       } catch (error) {
+        console.log(error);
         console.log("something went wrong...!");
       }
 
@@ -155,9 +168,11 @@ const handleSubmit = (e) =>{
 
   return (
 
-    <div className='MAIN bg-[#f0f2f5] w-screen h-screen flex justify-center items-center'>
+    <div className='MAIN  w-full h flex justify-center items-center backdrop-1'>
 
-      <div className="relative shadow w-[30%] bg-white  flex flex-col  rounded-xl">
+     
+
+      <div className="relative shadow w-[30%] bg-white  flex flex-col  rounded-xl fade-in">
         <span className='absolute top-3 right-3'> <IoCloseOutline /></span>
         <div className="heading flex flex-col gap-1 border-b p-3 "> <p className='text-3xl font-bold'>Sign Up</p> <p className='tracking-tight font-semibold text-gray-600'>It's quick and easy.</p></div>
         <div id='form' className="form  p-4">

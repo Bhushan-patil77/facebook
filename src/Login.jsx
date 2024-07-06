@@ -2,12 +2,15 @@ import React, { useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import './styles/Custom.css'
+import Signup from './Signup';
 
 function Login({setisloggedin,setpopupshow}) {
   const navigate = useNavigate()
 
   const [email, setEmail] = useState('bbb@gmail.com');
   const [pass, setPass] = useState('bbb');
+
+  const [signupPopup, setSignupPopup] = useState(false)
 
   const myref = useRef();
 
@@ -84,6 +87,11 @@ function Login({setisloggedin,setpopupshow}) {
 
       <div className='w-screen h-screen bg-[#f0f2f5] flex justify-center items-center'>
 
+
+        {
+          signupPopup && <div className='absolute w-full h-full z-50 flex flex-col justify-center items-center'> <Signup/> <span className='flex gap-2'>Already have an account ? <p className='text-blue-500 font-bold cursor-pointer' onClick={()=>{setSignupPopup(false)}}>Login</p> </span></div>
+        }
+
     
 
         <div className='w-[40%] h-full flex  justify-center pt-[18%]'>
@@ -106,7 +114,7 @@ function Login({setisloggedin,setpopupshow}) {
 
           <div className="border w-full "></div>
 
-          <button className='border w-[45%] h-[50px] mt-4 rounded-lg text-white bg-[#42b72a] font-bold' onClick={()=>{navigate('/Signup')}}>Create new account</button>
+          <button className='border w-[45%] h-[50px] mt-4 rounded-lg text-white bg-[#42b72a] font-bold' onClick={()=>{setSignupPopup(true)}}>Create new account</button>
         </div>
 
       </div>

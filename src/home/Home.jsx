@@ -16,7 +16,9 @@ import fundraisersicon from '../assets/fundraisers.png'
 
 import { IoIosArrowDown } from 'react-icons/io'
 import Navbar from '../Navbar'
-import { useLocation } from 'react-router-dom'
+import { json, useLocation } from 'react-router-dom'
+
+const user = JSON.parse(localStorage.getItem('user'))
 
 function Home() {
     const [seeMore, setSeeMore]=useState(false)
@@ -29,8 +31,8 @@ function Home() {
 
 
             <div className="left flex flex-col w-[20%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
-                <ul className='flex flex-col  items-start p-4 relative '>
-                    <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>Bhushan Patil</p></li>
+                <ul className='flex flex-col  items-start p-4 relative opacity-0 mountAnimation'>
+                    <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
                     <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
                     <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[15  px]'>Welcome</p></li>
                     <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>

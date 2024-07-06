@@ -23,7 +23,9 @@ function Navbar() {
   const profileDropdown = useRef()
 
   const [activeLink , setActiveLink]=useState('/')
-  const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null)
+  const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null);
+  const [user, setUser]=useState(JSON.parse(localStorage.getItem('user')))
+  console.log(user.name);
 
   const navigate = useNavigate()
 
@@ -101,12 +103,12 @@ function Navbar() {
            
            {
                        isLoggedIn && <div className={`relative flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`}  onClick={(e)=>{handleButtonClick(e, profileDropdown)}}>
-                                          <span className='font-semibold'>Bhushan patil</span> <div className="flex justify-center items-center bg-[#e4e6eb] w-[40px] h-[40px] rounded-full"><BiSolidUser className='w-[70%] h-[70%] text-white' /> </div>
+                                          <span className='font-semibold'>{user.name}</span> <div className="flex justify-center items-center bg-[#e4e6eb] w-[40px] h-[40px] rounded-full"><BiSolidUser className='w-[70%] h-[70%] text-white' /> </div>
                                           <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg shadow top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop' : 'hideFromBottom'}`}>
 
                                               <div className='flex justify-center m-3'>
                                                 <div className="flex flex-col p-3 gap-3 w-full shadow rounded-lg">
-                                                  <div className='flex gap-3'> <div className='flex items-center gap-3 rounded-lg  hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <BiSolidUser className='w-[60%] h-[60%] text-white'/> </span>  <p className='text-lg '> Bhushan Patil </p> </div> </div> 
+                                                  <div className='flex gap-3'> <div className='flex items-center gap-3 rounded-lg  hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <BiSolidUser className='w-[60%] h-[60%] text-white'/> </span>  <p className='text-lg '> {user.name} </p> </div> </div> 
                                                   <div className='border-[0.5px]'/>
                                                   <div className='font-semibold text-blue-400'>See all profiles</div>
                                                 </div>
