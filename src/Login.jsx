@@ -89,7 +89,7 @@ function Login({setisloggedin,setpopupshow}) {
 
 
         {
-          signupPopup && <div className='absolute w-full h-full z-50 flex flex-col justify-center items-center'> <Signup/> <span className='flex gap-2'>Already have an account ? <p className='text-blue-500 font-bold cursor-pointer' onClick={()=>{setSignupPopup(false)}}>Login</p> </span></div>
+          signupPopup && <div className='absolute w-full h-full z-50 flex flex-col justify-center items-center gap-2'> <Signup/> <span className='flex gap-2'>Already have an account ? <p className='text-blue-500 font-bold cursor-pointer' onClick={()=>{setSignupPopup(false)}}>Login</p> </span></div>
         }
 
     
@@ -104,7 +104,7 @@ function Login({setisloggedin,setpopupshow}) {
         <div className="flex flex-col items-center gap-3 bg-white rounded-xl w-[30%] p-4  fade-in delay-3">
           <form className='w-full flex flex-col gap-3' onSubmit={handleSubmit}>
 
-            <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="text" placeholder='Email address or phone number' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
+            <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="email" placeholder='Email address or phone number' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
             <input className='border borderbalck w-full h-[50px] text-lg pl-3 rounded-lg outline-[1px] outline-[#0866ff]' type="password" placeholder='Password' value={pass} onChange={(e)=>{setPass(e.target.value)}} />
             <button type='submit' className='w-full h-[50px] bg-[#0866ff] rounded-lg text-white text-lg font-bold'>Log in</button>
 

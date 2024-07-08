@@ -28,6 +28,7 @@
 
 .show{
     transition: all;
+    opacity: 1;
     transition-duration: 300ms;
     overflow-y: auto;
     
@@ -36,6 +37,7 @@
 
 .hide{
     transition: all;
+    opacity: 0;
     transition-duration: 300ms;
    
 }

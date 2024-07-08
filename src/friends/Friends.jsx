@@ -17,8 +17,8 @@ function Friends() {
     <div className='bg-[#f0f2f5] w-screen border-1 border-red-500 h-[720px] py-1 flex justify-between'>
 
       <div className="left bg-white rounded-lg flex flex-col w-[22%] h-full p-2 ">
-        <div className=' w-full flex justify-between p-2'><p className='font-bold text-2xl'>Friends</p> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-300 rounded-full'> <img className='w-5' src={settisngIcon}  alt="" /> </span></div>
-        <ul>
+        <div className=' w-full flex justify-between p-2 opacity-0 mountAnimation'><p className='font-bold text-2xl'>Friends</p> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-300 rounded-full'> <img className='w-5' src={settisngIcon}  alt="" /> </span></div>
+        <ul className='opacity-0 mountAnimation'>
           <li className='flex items-center gap-3 rounded-lg p-2 bg-slate-100'> <span className='flex justify-center items-center w-[36px] h-[36px] bg-blue-500 rounded-full'> <FaUserFriends className='w-[25px] h-[25px] text-white' />  </span>  <p className='text-lg '>Home</p></li>
           <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={friendRequestIcons} alt="" />  </span>  <p className='text-lg '>Friend Requests</p> <IoIosArrowForward className='absolute right-0' /></li>
           <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={friendSuggestionsIcon} alt="" />  </span>  <p className='text-lg '>Suggestions</p> <IoIosArrowForward className='absolute right-0' /></li>

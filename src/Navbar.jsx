@@ -74,7 +74,7 @@ function Navbar() {
     setParent(null)
     setActive(false)
 
-    localStorage.removeItem('user')
+    localStorage.clear()
 
     navigate('/Login')
 
