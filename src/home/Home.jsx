@@ -17,6 +17,7 @@ import fundraisersicon from '../assets/fundraisers.png'
 import { IoIosArrowDown } from 'react-icons/io'
 import Navbar from '../Navbar'
 import { json, useLocation } from 'react-router-dom'
+import Post from './Post'
 
 
 function Home() {
@@ -56,7 +57,7 @@ function Home() {
             </div>
 
 
-            <div className="center w-[55%] bg-white rounded-lg border"></div>
+            <div className="center w-[55%] bg-white rounded-lg border flex justify-center items-start pt-4 overflow-y-auto no-scrollbar"> <Post/> </div>
 
 
             <div className="right w-[20%] bg-white rounded-lg border"></div>
