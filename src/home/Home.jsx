@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import friendsicon from '../assets/friends.png'
 import adsManagericon from '../assets/adsManager.png'
 import eventsicon from '../assets/events.png'
@@ -11,18 +11,122 @@ import messengericon from '../assets/messenger.png'
 import videoicon from '../assets/video.png'
 import memoriesicon from '../assets/memories.png'
 import usericon from '../assets/user.png'
+import liveVideoIcon from '../assets/liveVideoIcon.png'
+import photosVideosIcon from '../assets/photosVideosIcon.png'
+import visibleToFriendsIcon from '../assets/visibleToFriendsIcon.png'
+import feelingActivityIcon from '../assets/feelingActivityIcon.png'
 import pagesicon from '../assets/pages.png'
 import fundraisersicon from '../assets/fundraisers.png'
+import '../styles/Custom.css'
 
-import { IoIosArrowDown } from 'react-icons/io'
+import { IoIosArrowDown, IoMdArrowDropdown, IoMdPhotos } from 'react-icons/io'
 import Navbar from '../Navbar'
 import { json, useLocation } from 'react-router-dom'
 import Post from './Post'
+import { RiArrowDropDownFill, RiFileGifFill } from 'react-icons/ri'
+import { FaUserTag } from 'react-icons/fa'
+import { TbPhotoFilled } from 'react-icons/tb'
+import { MdEmojiEmotions } from 'react-icons/md'
+import { ImLocation2 } from 'react-icons/im'
+import { HiGif } from 'react-icons/hi2'
+
+
+
 
 
 function Home() {
+
     const [seeMore, setSeeMore]=useState(false)
+    const [message, setMessage]=useState('')
+    const [posts, setPosts]=useState([])
     const user = JSON.parse(localStorage.getItem('user'))
+
+    const [active, setActive] = useState(false);
+    const [parent, setParent] = useState(null);
+    const [child, setChild] = useState(null);
+
+    const createPostPopup = useRef()
+    const createPostContainer = useRef()
+
+    useEffect(()=>{getPosts()},[])
+
+    console.log(posts);
+
+    const getPosts = async() =>{
+
+        const url = 'https://academics.newtonschool.co/api/v1/facebook/post'
+        const projectId = '6xetdqeg0242';
+    
+        try {
+
+          setMessage('Loading...')
+
+          var response = await fetch(url, {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              projectID: projectId
+            }
+          })
+
+          response = await response.json();
+
+          if (response.status === "success") {
+
+            const data = response.data
+
+            if (response.results > 0) {
+              setMessage('Success')
+              setPosts(data)
+            }
+            if (response.results == 0) {
+              setMessage('No Post Found')
+            }
+           
+    
+          }
+
+          if (response.status === "fail") {
+            alert(response.message)
+            setMessage('failed')
+          }
+    
+     
+        } catch (error) {
+          console.log(error);
+        }
+    
+    }
+
+
+    useEffect(() => {
+        const handleClick = (e) => {
+          if (child && !child.current.contains(e.target) && e.target !== parent) {
+            setActive(false);
+            setChild(null);
+            setParent(null);
+          }
+        };
+    
+        document.addEventListener('click', handleClick);
+        return () => {
+          document.removeEventListener('click', handleClick);
+        };
+      }, [child, parent]);
+    
+    
+    
+      const handleButtonClick = (e, childRef) => {
+        if (childRef.current !== child) {
+          setParent(e.target);
+          setChild(childRef);
+          setActive(true);
+        } else {
+          setActive(!active);
+        }
+      };
+
+
 
   return (
 
@@ -57,7 +161,88 @@ function Home() {
             </div>
 
 
-            <div className="center w-[55%] bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar"> <Post/> <Post/>  </div>
+
+
+            <div className="center w-[55%] bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
+
+
+               <div className="createPost w-[59%] rounded-lg p-3 flex flex-col gap-3 border" onClick={(e)=>{handleButtonClick(e, createPostPopup)}}>
+
+                <div className="upper flex items-center justify-between ">
+                    <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
+                    <div className="inputDiv border rounded-full w-[89%] flex pl-3 items-center h-[40px] bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer">What's on your mind, Bhushan</div>
+                </div>
+
+                <div className='border-b'/>
+
+                <div className="lower flex justify-between">
+                    <div className="liveVideo flex gap-2 items-center justify-center w-full py-1 hover:bg-gray-100 rounded-lg cursor-pointer"> <img src={liveVideoIcon} alt="" /> <span>Live video</span> </div>
+                    <div className='photo/video flex gap-2 items-center justify-center w-full py-1 hover:bg-gray-100 rounded-lg cursor-pointer'> <img src={photosVideosIcon} alt="" /> <span>Live video</span> </div>
+                    <div className='feeling/activity flex gap-2 items-center justify-center w-full py-1 hover:bg-gray-100 rounded-lg cursor-pointer'> <img src={feelingActivityIcon} alt="" /> <span>Live video</span> </div>
+                </div>
+
+               </div>
+
+
+               <div ref={createPostPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopup && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e)=>{ createPostContainer.current.contains(e.target) ? '' : setChild(null)}}>
+
+                <div ref={createPostContainer}  className={`createComment bg-white  absolute z-50 flex flex-col justify-between gap-3 p-3  left-[23.3%] bottom-[5%] rounded-lg w-[820px] h-[670px] boxShadow `}>
+
+                        <div className="heading p-3 border rounded-lg bg-slate-100 flex justify-center text-lg tracking-wider font-bold"> Create post </div>
+
+                        <div className='profilephoto&name flex justify-between items-center p-3 bg-slate-100 rounded-lg'>
+
+                            <div className='flex items-center gap-2'>
+                                <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
+                                <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold'>Bhushan Patil</span> </div>
+                            </div>
+
+                            <div className='visibleToList flex justify-between gap-2 items-center   bg-gray-200 rounded text-sm px-2 py-1'> <img className='h-[70%]' src={visibleToFriendsIcon} alt="" /> <span>Friends</span> <IoMdArrowDropdown /> </div>
+
+
+                        </div>
+
+                        <div className="whatsOnYourMind flex-grow bg-slate-100 rounded-lg">
+                        <div className="commentInput  p-3 ">
+                                <textarea
+                                    className='w-full bg-slate-100 outline-none rounded-lg pl-2 min-h-16 text-wrap resize-none overflow-hidden '
+                                    placeholder="What's on your mind, Bhushan. . ."
+                                    rows="1"
+                                    onInput={(e) => {
+                                        e.target.style.height = 'auto';
+                                        e.target.style.height = `${e.target.scrollHeight}px`;
+                                        e.target.parentElement.parentElement.style.height = `${e.target.scrollHeight + 50}px`; 
+                                    }}
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <div className="attachments flex justify-between px-3 py-4 border bg-slate-100 rounded-lg"> 
+                            <span>Add to your post</span>
+
+                            <div className="attachments flex gap-4">
+                                <span><TbPhotoFilled className='w-6 h-6 cursor-pointer' /></span>
+                                <span><FaUserTag className='w-6 h-6 cursor-pointer'/></span>
+                                <span><MdEmojiEmotions className='w-6 h-6 cursor-pointer' /></span>
+                                <span><ImLocation2 className='w-6 h-6 cursor-pointer' /></span>
+                                <span><RiFileGifFill className='w-6 h-6 cursor-pointer' /></span>
+                            </div>
+
+                        </div>
+
+                        <div className="postBtn border w-full h-[35px] rounded-lg bg-blue-500 flex justify-center items-center"> Post </div>
+
+                </div>
+
+              </div>
+
+              {
+                posts.map((post, i)=>{
+                    return <Post key={i} postInfo={post}/>
+                })
+              }
+
+             </div>
 
 
             <div className="right w-[20%] bg-white rounded-lg border"></div>

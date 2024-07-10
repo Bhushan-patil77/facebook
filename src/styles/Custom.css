@@ -90,3 +90,8 @@
 .backdrop-1{
   animation: background-blur 1s forwards;
 }
+
+.boxShadow{
+  box-shadow: 0px 0px 7px 2px gray;
+  background-color: red;
+}
