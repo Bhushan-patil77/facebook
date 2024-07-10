@@ -52,10 +52,6 @@ function Navbar() {
     };
   }, [child, parent]);
 
-  useEffect(()=>{
-    // console.log(isLoggedIn);
-  },[isLoggedIn])
-
 
 
   const handleButtonClick = (e, childRef) => {

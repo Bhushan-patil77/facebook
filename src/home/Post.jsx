@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import userIcon from '../assets/user.png'
 import lakshmiNarayan from '../assets/lakshmiNarayan.jpg'
 import worldCup from '../assets/worldCup.jpg'
@@ -22,8 +22,45 @@ import { IoCameraOutline } from 'react-icons/io5'
 import { HiOutlineGif } from 'react-icons/hi2'
 import { PiSticker } from 'react-icons/pi'
 import { IoMdSend } from 'react-icons/io'
+import { MdClose } from 'react-icons/md'
 
 function Post() {
+
+    const [active, setActive] = useState(false);
+    const [parent, setParent] = useState(null);
+    const [child, setChild] = useState(null);
+    const commentPopup = useRef()
+
+
+      
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (child && !child.current.contains(e.target) && e.target !== parent) {
+        setActive(false);
+        setChild(null);
+        setParent(null);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [child, parent]);
+
+
+
+  const handleButtonClick = (e, childRef) => {
+    if (childRef.current !== child) {
+      setParent(e.target);
+      setChild(childRef);
+      setActive(true);
+    } else {
+      setActive(!active);
+    }
+  };
+
+
     return (
 
 
@@ -58,7 +95,7 @@ function Post() {
                 <div className="like peer flex gap-2 items-center cursor-pointer "><img src={likeblankicon} alt="" /> <span>Like</span> </div>
                 <div className="reactions bg-white px-4 gap-3 h-[40px] rounded-full flex justify-between absolute border transition-all duration-300 scale-0 -translate-x-[90px] -translate-y-6 peer-hover:-translate-y-[40px] peer-hover:translate-x-1 peer-hover:scale-100 hover:-translate-y-[40px] hover:translate-x-1 hover:scale-100"> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={likegif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={wowGif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={laughgif} alt="" />  <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={caregif} alt="" /></div>
 
-                <div className="comment flex gap-2 items-center"><img src={commentblankicon} alt="" /> <span>Comment</span></div>
+                <div className="comment flex gap-2 items-center cursor-pointer"   onClick={(e)=>{handleButtonClick(e, commentPopup)}}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
 
 
 
@@ -73,8 +110,8 @@ function Post() {
 
 
 
-                <div className="createComment bg-white absolute flex flex-col  justify-between  -left-[162px] -bottom-[130px] shadow rounded w-[820px] h-[670px]">
-                    <div className="upper flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post</div>
+                <div ref={commentPopup} className={`createComment bg-white absolute flex flex-col  justify-between  -left-[162px] -bottom-[130px] shadow rounded w-[820px] h-[670px] ${child === commentPopup && active ? 'showFromTop' : 'hideFromBottom'}`}>
+                    <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={()=>{setChild(null)}} /></div>
 
                     <div className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
                         <div className='UserInfo flex items-center gap-3 px-4'>
@@ -150,7 +187,7 @@ function Post() {
 
 
 
-                <div className="send flex gap-2 items-center"><img src={whatsappblankicon} alt="a" /> <span>Send</span></div>
+                <div className="send flex gap-2 items-center"><img src={whatsappblankicon} alt="" /> <span>Send</span></div>
 
                 <div className="share flex gap-2 items-center"><img src={shareblankicon} alt="" /> <span>Share</span></div>
             </div>
