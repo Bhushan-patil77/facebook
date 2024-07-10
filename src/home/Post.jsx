@@ -30,6 +30,7 @@ function Post() {
     const [parent, setParent] = useState(null);
     const [child, setChild] = useState(null);
     const commentPopup = useRef()
+    const commentContainer = useRef()
 
 
       
@@ -108,9 +109,9 @@ function Post() {
 
 
 
+                <div ref={commentPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-sm ${child === commentPopup && active ? 'showFromTop' : 'hideFromBottom'}`} onClick={(e)=>{ commentContainer.current.contains(e.target) ? '' : setChild(null)}}>
 
-
-                <div ref={commentPopup} className={`createComment bg-white absolute flex flex-col  justify-between  -left-[162px] -bottom-[130px] shadow rounded w-[820px] h-[670px] ${child === commentPopup && active ? 'showFromTop' : 'hideFromBottom'}`}>
+                <div ref={commentContainer}  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] shadow rounded w-[820px] h-[670px] `}>
                     <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={()=>{setChild(null)}} /></div>
 
                     <div className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
@@ -176,6 +177,10 @@ function Post() {
                         </div>
                     </div>
                 </div>
+
+                </div>
+
+               
 
 
 

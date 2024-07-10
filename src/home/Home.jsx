@@ -57,7 +57,7 @@ function Home() {
             </div>
 
 
-            <div className="center w-[55%] bg-white rounded-lg border flex justify-center items-start pt-4 overflow-y-auto no-scrollbar"> <Post/> </div>
+            <div className="center w-[55%] bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar"> <Post/> <Post/>  </div>
 
 
             <div className="right w-[20%] bg-white rounded-lg border"></div>
