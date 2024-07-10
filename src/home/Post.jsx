@@ -150,7 +150,7 @@ function Post() {
 
 
 
-                <div className="send flex gap-2 items-center"><img src={whatsappblankicon} alt="" /> <span>Send</span></div>
+                <div className="send flex gap-2 items-center"><img src={whatsappblankicon} alt="a" /> <span>Send</span></div>
 
                 <div className="share flex gap-2 items-center"><img src={shareblankicon} alt="" /> <span>Share</span></div>
             </div>
