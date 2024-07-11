@@ -7,6 +7,7 @@ import caregif from '../assets/caregif.gif'
 import sadgif from '../assets/sadgif.gif'
 import laughgif from '../assets/laughgif.gif'
 import likegif from '../assets/likegif.gif'
+import dislikegif from '../assets/dislikegif.gif'
 import likecoloredpng from '../assets/likecoloredpng.png'
 import likeblankicon from '../assets/likeblankicon.png'
 import commentblankicon from '../assets/commentblankicon.png'
@@ -31,6 +32,8 @@ function Post({postInfo}) {
     const [days, setDays]=useState(null)
     const [hours, setHours]=useState(null)
     const [message, setMessage]=useState(null)
+    const [likeMessage, setLikeMessage]=useState(null)
+    const [dislikeMessage, setDislikeMessage]=useState(null)
     const [liked, setLiked]=useState()
     const postId = postInfo._id
     const token = localStorage.getItem('token')
@@ -40,7 +43,12 @@ function Post({postInfo}) {
     const [child, setChild] = useState(null);
     const commentPopup = useRef()
     const commentContainer = useRef()
+    
 
+    useEffect(()=>{
+      console.log(likeMessage);
+      console.log(dislikeMessage);
+    },[likeMessage, dislikeMessage])
     const likePost = async() =>{
 
         const url = `https://academics.newtonschool.co/api/v1/facebook/like/${postId}`;
@@ -48,7 +56,7 @@ function Post({postInfo}) {
     
       
         try {
-          setMessage('Loading...');
+          setLikeMessage('Loading...');
       
           const response = await fetch(url, {
             method: "POST",
@@ -60,19 +68,58 @@ function Post({postInfo}) {
           });
 
 
-          console.log(response);
+         
       
           const responseData = await response.json();
+
+          console.log(responseData);
       
-          if (responseData.ok) {
-              setMessage('success')
+          if (responseData.status==='success') {
+            setLikeMessage('success')
+            setDislikeMessage('fail')
+              console.log(responseData);
           } else {
-            setMessage('Failed');
+            setLikeMessage('Failed to like this post');
           }
         } catch (error) {
           console.log(error);
         }
     }
+
+    const dislikePost = async() =>{
+
+      const url = `https://academics.newtonschool.co/api/v1/facebook/dislike/${postId}`;
+      const projectId = '6xetdqeg0242';
+  
+    
+      try {
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "projectID": projectId,
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+
+     
+    
+        const responseData = await response.json();
+
+        console.log(responseData);
+    
+        if (responseData.status==='success') {
+            setDislikeMessage('success')
+            setLikeMessage('fail')
+        } else if(responseData. message== 'You already disliked this post') {
+          setDislikeMessage('You already disliked this post');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+  }
 
     useEffect(()=>{
         getTimeDifference(postInfo.createdAt)
@@ -145,7 +192,7 @@ function Post({postInfo}) {
     return (
 
 
-        <div className='w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow border'>
+        <div className='w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow border '>
 
             <div className='UserInfo flex items-center gap-3 px-4'>
                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
@@ -158,10 +205,10 @@ function Post({postInfo}) {
 
             <div className='WhatsOnUsersMind px-4'> {postInfo.content} </div>
 
-            <div className='Photo w-full px-1'> <img className='w-full rounded' src={postInfo.images[0]} alt="" /> </div>
+            <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : '' } </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" /> </div>
 
             <div className='LikedCommentsSharedCounts flex justify-between px-4'>
-                <div className="likedCounts flex items-center gap-2"> <BiSolidLike className='text-blue-500 text-lg' /> <span className='font-semibold'>{postInfo.likeCount}</span> </div>
+                <div className="likedCounts flex items-center gap-2"> <BiSolidLike className={`${likeMessage === 'success' ? 'text-lg text-blue-500 liked' : 'text-blue-500'}`} /> <span className='font-semibold text-sm'>{likeMessage === 'success' ? 'You and other ' : ''}{postInfo.likeCount}</span> </div>
 
                 <div className='commentsCount&Shares flex gap-4'>
                     <div className="flex items-center gap-1"> <span className='font-semibold'>{postInfo.commentCount}</span> <FaComment className='text-blue-500' /></div>
@@ -174,7 +221,7 @@ function Post({postInfo}) {
 
             <div className='Like Comment Share Buttons relative flex justify-between px-8 '>
                 <div className="like peer flex gap-2 items-center cursor-pointer "><img src={likeblankicon} alt="" /> <span>Like</span> </div>
-                <div className="reactions bg-white px-4 gap-3 h-[40px] rounded-full flex justify-between absolute border transition-all duration-300 scale-0 -translate-x-[90px] -translate-y-6 peer-hover:-translate-y-[40px] peer-hover:translate-x-1 peer-hover:scale-100 hover:-translate-y-[40px] hover:translate-x-1 hover:scale-100"> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={likegif} alt="" onClick={()=>{likePost()}}/> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={wowGif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={laughgif} alt="" />  <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={caregif} alt="" /></div>
+                <div className="reactions bg-white px-4 gap-3 h-[25px] rounded-full flex justify-between absolute border transition-all duration-300 scale-0 -translate-x-[90px] -translate-y-6 peer-hover:-translate-y-[25px] peer-hover:translate-x-1 peer-hover:scale-100 hover:-translate-y-[25px] hover:translate-x-1 hover:scale-100"> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={likegif} alt="" onClick={()=>{likePost()}}/> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={dislikegif} alt="" onClick={()=>{dislikePost()}}/> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={wowGif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={laughgif} alt="" />  <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={caregif} alt="" /></div>
 
                 <div className="comment flex gap-2 items-center cursor-pointer"   onClick={(e)=>{handleButtonClick(e, commentPopup)}}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
 
@@ -189,7 +236,7 @@ function Post({postInfo}) {
 
 
 
-                <div ref={commentPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === commentPopup && active ? 'showFromTop' : 'hideFromBottom'}`} onClick={(e)=>{ commentContainer.current.contains(e.target) ? '' : setChild(null)}}>
+                <div ref={commentPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === commentPopup && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e)=>{ commentContainer.current.contains(e.target) ? '' : setChild(null)}}>
 
                 <div ref={commentContainer}  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] shadow rounded w-[820px] h-[670px] `}>
                     <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={()=>{setChild(null)}} /></div>
@@ -197,31 +244,29 @@ function Post({postInfo}) {
                     <div className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
                         <div className='UserInfo flex items-center gap-3 px-4'>
                             <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border ">
-                                <img className='rounded-full' src={userIcon} alt="" />
+                                <img className='rounded-full' src={postInfo.author.profileImage} alt="" />
                             </div>
 
                             <div className='channalName&PostInfo flex flex-col justify-center leading-5 h-[40px] '>
                                 <div className="channalInfo flex items-center gap-2 ">
-                                    <span className='font-semibold'>Bhushan Patil</span>
+                                    <span className='font-semibold'>{postInfo.author.name}</span>
                                     <div className='w-1 h-1 bg-gray-500 rounded-full' />
                                     <span className='font-semibold text-blue-500'>Follow</span>
                                 </div>
                                 <div className="postInfo flex items-center gap-2">
                                     <span className='text-sm  text-gray-500'>Recomended post</span>
                                     <div className='w-1 h-1 bg-gray-500 rounded-full' />
-                                    <span className='text-sm text-gray-500'>5 days ago</span>
+                                    <span className='text-sm text-gray-500'>{years > 0 ? `${years} years`: ``} {months > 0 ? `${months} months`: ``} {days > 0 ? `${days} days` : ``} { years == 0 && months==0 && days==0 ? `${hours} hours` : ``} ago</span>
                                     <div className='w-1 h-1 bg-gray-500 rounded-full' />
                                     <span className='text-sm text-gray-500'>public</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className='WhatsOnUsersMind px-4'>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cons uga molestiae dignissimos vel, nesciunt obcaecati laudantium earum error quaerat adipisci ea corrupti uga molestiae dignissimos vel, nesciunt obcaecati laudantium earum error quaerat adipisci ea corrupti rem magnam harum, maxime quia ullam omnis doloru uga molestiae dignissimos vel, nesciunt obcaecati laudantium earum error quaerat adipisci ea corrupti rem magnam harum, maxime quia ullam omnis doloru uga molestiae dignissimos vel, nesciunt obcaecati laudantium earum error quaerat adipisci ea corrupti rem magnam harum, maxime quia ullam omnis doloru rem magnam harum, maxime quia ullam omnis dolorum.
-                        </div>
+                        <div className='WhatsOnUsersMind px-4'> {postInfo.content} </div>
 
                         <div className='Photo w-full px-1'>
-                            <img className='w-full rounded' src={worldCup} alt="" />
+                            <img className='w-full rounded' src={postInfo.images[0]} alt="" />
                         </div>
                     </div>
 

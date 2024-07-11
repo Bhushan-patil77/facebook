@@ -95,3 +95,42 @@
   box-shadow: 0px 0px 7px 2px gray;
   background-color: red;
 }
+
+.liked {
+  animation: likeAnimation 0.3s ease forwards;
+}
+
+@keyframes likeAnimation {
+  0% {
+      
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.5);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+.popLike{
+  animation: popAnimation 1s ease-out forwards;
+}
+
+.popDislike{
+  animation: popAnimation 1s ease-out forwards;
+}
+
+@keyframes popAnimation{
+  0% {
+    opacity: 100;
+    transform: scale(1);
+}
+50% {
+    transform: scale(1.5);
+}
+100% {
+    transform: scale(1.6);
+    opacity: 0;
+}
+}
