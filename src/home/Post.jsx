@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import '../styles/Custom.css'
 import userIcon from '../assets/user.png'
 import lakshmiNarayan from '../assets/lakshmiNarayan.jpg'
 import worldCup from '../assets/worldCup.jpg'
@@ -192,9 +193,11 @@ function Post({postInfo}) {
     return (
 
 
-        <div className='w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow border '>
+        <div className='w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow border  '>
 
-            <div className='UserInfo flex items-center gap-3 px-4'>
+          
+
+            <div className='UserInfo flex items-center gap-3 px-4  '>
                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
 
                 <div className='channalName&PostInfo flex flex-col justify-center leading-5 h-[40px] '>
@@ -238,7 +241,7 @@ function Post({postInfo}) {
 
                 <div ref={commentPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === commentPopup && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e)=>{ commentContainer.current.contains(e.target) ? '' : setChild(null)}}>
 
-                <div ref={commentContainer}  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] shadow rounded w-[820px] h-[670px] `}>
+                <div ref={commentContainer}  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] boxShadow rounded w-[820px] h-[670px] `}>
                     <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={()=>{setChild(null)}} /></div>
 
                     <div className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
