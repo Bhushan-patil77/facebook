@@ -16,15 +16,15 @@ import whatsappblankicon from '../assets/whatsappblankicon.png'
 import shareblankicon from '../assets/shareblankicon.png'
 import commenticon from '../assets/comment.png'
 import shareicon from '../assets/share.png'
-import { BiSolidLike } from 'react-icons/bi'
-import { FaComment } from 'react-icons/fa'
-import { RiShareForwardFill } from 'react-icons/ri'
+import { BiSolidHide, BiSolidLike } from 'react-icons/bi'
+import { FaComment, FaEdit } from 'react-icons/fa'
+import { RiDeleteBin4Fill, RiShareForwardFill, RiUserForbidFill } from 'react-icons/ri'
 import { HiOutlineEmojiHappy } from 'react-icons/hi'
-import { IoCameraOutline } from 'react-icons/io5'
+import { IoCameraOutline, IoNotifications } from 'react-icons/io5'
 import { HiOutlineGif } from 'react-icons/hi2'
 import { PiSticker } from 'react-icons/pi'
-import { IoMdSend } from 'react-icons/io'
-import { MdClose } from 'react-icons/md'
+import { IoIosSave, IoMdSend } from 'react-icons/io'
+import { MdClearAll, MdClose, MdDelete, MdDeleteForever, MdReportProblem } from 'react-icons/md'
 
 function Post({postInfo}) {
   const middleDivRef = useRef(null);
@@ -40,11 +40,16 @@ function Post({postInfo}) {
     const [commentMessage, setCommentMessage]=useState(null)
     const [comments, setComments] = useState([])
     const [commentingOnPostMessage, setCommentingOnPostMessage]=useState()
+    const [deletengCommentOnPost, setDeletingCommentOnPost]=useState()
     const [commentContent, setCommentContent]=useState()
     const [lastCommentIndex, setLastCommentIndex]=useState()
+    const [deletedCommentId, setDeletedCommentId]=useState()
+    const [postDeleteMessage, setPostDeleteMessage]=useState()
     const [liked, setLiked]=useState()
     const postId = postInfo._id
     const token = localStorage.getItem('token')
+    const myAuthorId = JSON.parse(localStorage.getItem('user'))._id;
+   
     const yearMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
@@ -53,13 +58,12 @@ function Post({postInfo}) {
     const [child, setChild] = useState(null);
     const commentPopup = useRef()
     const commentContainer = useRef()
+    const postOptions = useRef()
 
  
     
 
-    useEffect(()=>{
-      console.log(lastCommentIndex);
-    },[comments])
+    
 
 
     const getPostComments = async() =>{
@@ -103,43 +107,127 @@ function Post({postInfo}) {
     const url = `https://academics.newtonschool.co/api/v1/facebook/comment/${postId}`;
     const projectId = '6xetdqeg0242';
 
-  
-    try {
-      setCommentingOnPostMessage('Loading...');
-  
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "projectID": projectId,
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          'content': commentContent
-        })
-      });
+    if(commentContent!=='')
+    {
 
-
-     
+      try {
+        setCommentingOnPostMessage('Loading...');
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "projectID": projectId,
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            'content': commentContent
+          })
+        });
+    
+          const responseData = await response.json();
   
-      const responseData = await response.json();
+          if (responseData.status==='success') {
+            setCommentingOnPostMessage('success')
+            setCommentContent('')
+            getPostComments()
+    
+            console.log(responseData.data);
+    
+            const timer = setTimeout(()=>{
+              document.getElementById(`comment${comments.length-1}${postId}`).scrollIntoView({behavior:'smooth'})
+            },300)
+          
+          } else {
+            setCommentingOnPostMessage('Failed to comment this post');
+          }
 
-  
-      if (responseData.status==='success') {
-        setCommentingOnPostMessage('success')
-        setCommentContent('')
-        getPostComments()
-
-        const timer = setTimeout(()=>{
-          document.getElementById(`comment${comments.length-1}${postId}`).scrollIntoView({behavior:'smooth'})
-        },300)
-       
-      } else {
-        setCommentingOnPostMessage('Failed to comment this post');
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+
     }
+
+  
+ 
+}
+
+const deletePost = async() =>{
+
+  const url = `https://academics.newtonschool.co/api/v1/facebook/post/${postId}`;
+  const projectId = '6xetdqeg0242';
+
+
+  try {
+    setPostDeleteMessage('Loading...');
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "projectID": projectId,
+        "Authorization": `Bearer ${token}`
+      }
+    
+    });
+
+
+
+   if(response.status == 204)
+   {
+    setDeletingCommentOnPost('success')
+    console.log('post deleted');
+   }
+   else if(response.status==404)
+   {
+    setDeletingCommentOnPost('post not found')
+    console.log('post not found');
+   }
+  
+  } catch (error) {
+    alert(error)
+  }
+}
+
+const deleteCommentOnPost = async(commentId) =>{
+
+  const url = `https://academics.newtonschool.co/api/v1/facebook/comment/${commentId}`;
+  const projectId = '6xetdqeg0242';
+
+
+  try {
+    setDeletingCommentOnPost('Loading...');
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "projectID": projectId,
+        "Authorization": `Bearer ${token}`
+      }
+    
+    });
+
+
+    console.log(response);
+
+   if(response.status == 204)
+   {
+    setDeletingCommentOnPost('success')
+    console.log('success');
+    getPostComments()
+    setDeletedCommentId(postId)
+    
+   }
+   else if(response.status==404)
+   {
+    setDeletingCommentOnPost('comment not found')
+    console.log('comment not found');
+   }
+  
+  } catch (error) {
+    alert(error)
+  }
 }
 
 
@@ -286,9 +374,21 @@ function Post({postInfo}) {
     return (
 
 
-        <div className='w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow border  '>
+        <div className='relative w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow  '>
 
-          
+            <span className='absolute top-0 right-4 text-lg font-bold cursor-pointer' onClick={(e)=>{handleButtonClick(e, postOptions)}} >...</span>
+            <div ref={postOptions} className={`absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg  ${child === postOptions && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
+              <ul className='flex flex-col gap-4'>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <IoIosSave />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Save Post</p>  <p className='text-xs text-gray-300'>Add this to your saved items.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <FaEdit />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Edit Post</p>  <p className='text-xs text-gray-300'>Edit content of post.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <BiSolidHide />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Hide Post</p>  <p className='text-xs text-gray-300'>Add this to your saved items.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <IoNotifications />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Turn on notifications from this post</p>  <p className='text-xs text-gray-300'>You will receive notifications for this post.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <MdClearAll />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Hide all from anamika</p>  <p className='text-xs text-gray-300'>See fewer posts like this.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <MdReportProblem />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Report Post</p>  <p className='text-xs text-gray-300'>We won't let anamika know who reported this.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <RiUserForbidFill />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Block anamika's profile</p>  <p className='text-xs text-gray-300'>You won't be able to see or contact each other.</p></span> </li>
+                <li className='flex gap-3 cursor-pointer' onClick={()=>{deletePost(); setParent(null); setChild(null)}}> <RiDeleteBin4Fill />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Delete your post</p>  <p className='text-xs text-gray-300'>Your post will be deleted permanantly</p></span> </li>
+              </ul>
+            </div>
 
             <div className='UserInfo flex items-center gap-3 px-4  '>
                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
@@ -368,19 +468,25 @@ function Post({postInfo}) {
                         {
                           comments.map((comment, i)=>{
                               
-                            return   <div id={`comment${i}${postId}`} key={i} className={`commentsOnPost flex gap-2 px-4  ${i==comments.length ? 'bg-red-600' : ''}`}>
+                            return   <div id={`comment${i}${postId}`} key={`comment${i}${postId}`} className={`commentsOnPost relative flex gap-2 px-4`}>
                                           
                                           <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border ">
                                               <img className='rounded-full' src={userIcon} alt="" />
                                           </div>
                                           
                 
-                                          <div className="nameAndComment flex flex-col bg-slate-200 rounded-lg px-3 gap-1 py-1 min-w-[200px]" >
+                                          <div className="nameAndComment relative flex flex-col bg-slate-200 rounded-lg px-3 gap-1 py-1 min-w-[200px]" >
                                             <div className="flex justify-between items-center relative"> <span className='font-semibold'>{comment.author_details.name}</span> <span className='text-[9px] peer'>{new Date(comment.createdAt).getDate()} {yearMonths[new Date(comment.createdAt).getMonth()]} {new Date(comment.createdAt).getFullYear()}</span> <p className='absolute text-[9px] -right-10 opacity-0 peer-hover:opacity-100'>{new Date(comment.createdAt).getHours()} : {new Date(comment.createdAt).getMinutes()}</p></div>
                                             
                                             <span>{comment.content}</span>
+
+                                           { 
+                                             comment.author === myAuthorId && <div className="deleteIcon flex items-center gap-3  absolute -right-[120px] bottom-1"><MdDeleteForever className='peer cursor-pointer text-slate-500' onClick={()=>{deleteCommentOnPost(comment._id);}}/> <p className='opacity-0  transition-all duration-700 peer-hover:opacity-100 text-[9px] font-semibold text-red-400'> Delete your comment</p></div> 
+                                           }
+
                 
                                           </div>
+
                                       </div>
                           })
                         }
