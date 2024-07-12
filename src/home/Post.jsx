@@ -27,6 +27,8 @@ import { IoMdSend } from 'react-icons/io'
 import { MdClose } from 'react-icons/md'
 
 function Post({postInfo}) {
+  const middleDivRef = useRef(null);
+
 
     const [years, setYears]=useState(null)
     const [months, setMonths]=useState(null)
@@ -35,21 +37,112 @@ function Post({postInfo}) {
     const [message, setMessage]=useState(null)
     const [likeMessage, setLikeMessage]=useState(null)
     const [dislikeMessage, setDislikeMessage]=useState(null)
+    const [commentMessage, setCommentMessage]=useState(null)
+    const [comments, setComments] = useState([])
+    const [commentingOnPostMessage, setCommentingOnPostMessage]=useState()
+    const [commentContent, setCommentContent]=useState()
+    const [lastCommentIndex, setLastCommentIndex]=useState()
     const [liked, setLiked]=useState()
     const postId = postInfo._id
     const token = localStorage.getItem('token')
+    const yearMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 
     const [active, setActive] = useState(false);
     const [parent, setParent] = useState(null);
     const [child, setChild] = useState(null);
     const commentPopup = useRef()
     const commentContainer = useRef()
+
+ 
     
 
     useEffect(()=>{
-      console.log(likeMessage);
-      console.log(dislikeMessage);
-    },[likeMessage, dislikeMessage])
+      console.log(lastCommentIndex);
+    },[comments])
+
+
+    const getPostComments = async() =>{
+      console.log('called');
+
+      const url = `https://academics.newtonschool.co/api/v1/facebook/post/${postId}/comments`;
+      const projectId = '6xetdqeg0242';
+  
+    
+      try {
+        setCommentMessage('Loading...');
+    
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "projectID": projectId,
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+    
+        if (responseData.status==='success') {
+          setComments(responseData.data)
+          setCommentMessage('success')
+          setLastCommentIndex(responseData.data.length)
+            console.log(responseData);
+        } else {
+          setCommentMessage('Failed to fetch comments');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  const commentOnPost = async() =>{
+
+    const url = `https://academics.newtonschool.co/api/v1/facebook/comment/${postId}`;
+    const projectId = '6xetdqeg0242';
+
+  
+    try {
+      setCommentingOnPostMessage('Loading...');
+  
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "projectID": projectId,
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          'content': commentContent
+        })
+      });
+
+
+     
+  
+      const responseData = await response.json();
+
+  
+      if (responseData.status==='success') {
+        setCommentingOnPostMessage('success')
+        setCommentContent('')
+        getPostComments()
+
+        const timer = setTimeout(()=>{
+          document.getElementById(`comment${comments.length-1}${postId}`).scrollIntoView({behavior:'smooth'})
+        },300)
+       
+      } else {
+        setCommentingOnPostMessage('Failed to comment this post');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+
     const likePost = async() =>{
 
         const url = `https://academics.newtonschool.co/api/v1/facebook/like/${postId}`;
@@ -226,7 +319,7 @@ function Post({postInfo}) {
                 <div className="like peer flex gap-2 items-center cursor-pointer "><img src={likeblankicon} alt="" /> <span>Like</span> </div>
                 <div className="reactions bg-white px-4 gap-3 h-[25px] rounded-full flex justify-between absolute border transition-all duration-300 scale-0 -translate-x-[90px] -translate-y-6 peer-hover:-translate-y-[25px] peer-hover:translate-x-1 peer-hover:scale-100 hover:-translate-y-[25px] hover:translate-x-1 hover:scale-100"> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={likegif} alt="" onClick={()=>{likePost()}}/> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={dislikegif} alt="" onClick={()=>{dislikePost()}}/> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={wowGif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={laughgif} alt="" />  <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={caregif} alt="" /></div>
 
-                <div className="comment flex gap-2 items-center cursor-pointer"   onClick={(e)=>{handleButtonClick(e, commentPopup)}}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
+                <div className="comment flex gap-2 items-center cursor-pointer"   onClick={(e)=>{handleButtonClick(e, commentPopup); getPostComments()}}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
 
 
 
@@ -244,7 +337,7 @@ function Post({postInfo}) {
                 <div ref={commentContainer}  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] boxShadow rounded w-[820px] h-[670px] `}>
                     <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={()=>{setChild(null)}} /></div>
 
-                    <div className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
+                    <div ref={middleDivRef} id='middle' className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
                         <div className='UserInfo flex items-center gap-3 px-4'>
                             <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border ">
                                 <img className='rounded-full' src={postInfo.author.profileImage} alt="" />
@@ -266,11 +359,36 @@ function Post({postInfo}) {
                             </div>
                         </div>
 
-                        <div className='WhatsOnUsersMind px-4'> {postInfo.content} </div>
+                        <div  className='WhatsOnUsersMind px-4'> {postInfo.content} </div>
 
                         <div className='Photo w-full px-1'>
                             <img className='w-full rounded' src={postInfo.images[0]} alt="" />
                         </div>
+
+                        {
+                          comments.map((comment, i)=>{
+                              
+                            return   <div id={`comment${i}${postId}`} key={i} className={`commentsOnPost flex gap-2 px-4  ${i==comments.length ? 'bg-red-600' : ''}`}>
+                                          
+                                          <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border ">
+                                              <img className='rounded-full' src={userIcon} alt="" />
+                                          </div>
+                                          
+                
+                                          <div className="nameAndComment flex flex-col bg-slate-200 rounded-lg px-3 gap-1 py-1 min-w-[200px]" >
+                                            <div className="flex justify-between items-center relative"> <span className='font-semibold'>{comment.author_details.name}</span> <span className='text-[9px] peer'>{new Date(comment.createdAt).getDate()} {yearMonths[new Date(comment.createdAt).getMonth()]} {new Date(comment.createdAt).getFullYear()}</span> <p className='absolute text-[9px] -right-10 opacity-0 peer-hover:opacity-100'>{new Date(comment.createdAt).getHours()} : {new Date(comment.createdAt).getMinutes()}</p></div>
+                                            
+                                            <span>{comment.content}</span>
+                
+                                          </div>
+                                      </div>
+                          })
+                        }
+
+
+
+
+
                     </div>
 
                     <div className="lower flex gap-2 shadow p-4">
@@ -284,6 +402,8 @@ function Post({postInfo}) {
                                     className='w-full outline-none bg-gray-100 text-wrap resize-none overflow-hidden '
                                     placeholder='Write a comment...'
                                     rows="1"
+                                    onChange={(e)=>{setCommentContent(e.target.value)}}
+                                    value={commentContent}
                                     onInput={(e) => {
                                         e.target.style.height = 'auto';
                                         e.target.style.height = `${e.target.scrollHeight}px`;
@@ -298,7 +418,7 @@ function Post({postInfo}) {
                                 <HiOutlineGif />
                                 <PiSticker />
                                 </div>
-                                <div className="sendbtn">
+                                <div className="sendbtn cursor-pointer" onClick={()=>{commentOnPost(); }}>
                                 <IoMdSend />
                                 </div>
                             </div>
