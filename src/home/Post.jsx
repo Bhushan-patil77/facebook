@@ -26,7 +26,7 @@ import { PiSticker } from 'react-icons/pi'
 import { IoIosSave, IoMdSend } from 'react-icons/io'
 import { MdClearAll, MdClose, MdDelete, MdDeleteForever, MdReportProblem } from 'react-icons/md'
 
-function Post({postInfo}) {
+function Post({postInfo, setPostDeleted}) {
   const middleDivRef = useRef(null);
 
 
@@ -64,6 +64,7 @@ function Post({postInfo}) {
     
 
     
+ 
 
 
     const getPostComments = async() =>{
@@ -176,6 +177,7 @@ const deletePost = async() =>{
    if(response.status == 204)
    {
     setDeletingCommentOnPost('success')
+    setPostDeleted(postId)
     console.log('post deleted');
    }
    else if(response.status==404)
@@ -374,10 +376,10 @@ const deleteCommentOnPost = async(commentId) =>{
     return (
 
 
-        <div className='relative w-[500px] rounded-lg flex flex-col gap-3 py-4 shadow  '>
+        <div className='relative w-[500px] rounded-lg flex flex-col gap-3 py-4 boxShadow  '>
 
             <span className='absolute top-0 right-4 text-lg font-bold cursor-pointer' onClick={(e)=>{handleButtonClick(e, postOptions)}} >...</span>
-            <div ref={postOptions} className={`absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg  ${child === postOptions && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
+            <div ref={postOptions} className={`absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg boxShadow  ${child === postOptions && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
               <ul className='flex flex-col gap-4'>
                 <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <IoIosSave />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Save Post</p>  <p className='text-xs text-gray-300'>Add this to your saved items.</p></span> </li>
                 <li className='flex gap-3 cursor-pointer' onClick={()=>{setParent(null); setChild(null)}}> <FaEdit />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Edit Post</p>  <p className='text-xs text-gray-300'>Edit content of post.</p></span> </li>
@@ -390,7 +392,7 @@ const deleteCommentOnPost = async(commentId) =>{
               </ul>
             </div>
 
-            <div className='UserInfo flex items-center gap-3 px-4  '>
+            <div className='UserInfo flex items-center gap-3 px-4 '>
                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
 
                 <div className='channalName&PostInfo flex flex-col justify-center leading-5 h-[40px] '>
@@ -399,7 +401,7 @@ const deleteCommentOnPost = async(commentId) =>{
                 </div>
             </div>
 
-            <div className='WhatsOnUsersMind px-4'> {postInfo.content} </div>
+            <div className='WhatsOnUsersMind px-4 '> {postInfo.content} </div>
 
             <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : '' } </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" /> </div>
 

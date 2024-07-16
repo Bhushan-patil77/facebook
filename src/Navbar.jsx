@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import logoImage from './assets/facebookicon.png'
-import { IoIosArrowForward, IoIosSearch } from 'react-icons/io'
+import { IoIosArrowForward, IoIosSearch, IoMdPhotos } from 'react-icons/io'
 import { CgMenuGridO } from 'react-icons/cg'
-import { FaFacebookMessenger, FaUserFriends } from 'react-icons/fa'
+import { FaFacebookMessenger, FaPlaceOfWorship, FaUserFriends } from 'react-icons/fa'
 import { GoBellFill, GoHomeFill } from 'react-icons/go'
-import { BiSolidUser } from 'react-icons/bi'
+import { BiSolidUser, BiSolidVideos } from 'react-icons/bi'
 import { HiMiniUserGroup } from 'react-icons/hi2'
 import { Link, useNavigate } from 'react-router-dom'
 import userIcon from './assets/user.png'
@@ -13,14 +13,24 @@ import helpAndSupportIcon from './assets/help&SupportIcon.png'
 import displayAndAccessibilityIcon from './assets/display&accessibilityicon.png'
 import giveFeedbackIcon from './assets/giveFeedbackIcon.png'
 import logoutIcon from './assets/logoutIcon.png'
+import friendsIcon from './assets/friends.png'
 import Login from './Login'
+import { FaCircleQuestion } from 'react-icons/fa6'
+import Friends from './friends/Friends'
+import { BsGridFill, BsPeopleFill } from 'react-icons/bs'
+import { RiPagesFill } from 'react-icons/ri'
+import { MdGroups } from 'react-icons/md'
 
 
-function Navbar() {
+function Navbar({setSearchInput, setField}) {
+  const [inputText, setInputText]=useState()
+  const [searchField, setSearchField]=useState('Author.nam')
+
   const [active, setActive] = useState(false);
   const [parent, setParent] = useState(null);
   const [child, setChild] = useState(null);
   const profileDropdown = useRef()
+  const filterOptions = useRef()
 
   const [activeLink , setActiveLink]=useState('/')
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null);
@@ -83,11 +93,21 @@ function Navbar() {
 
     <div className='flex justify-between items-center px-4 bg-white w-screen h-[56px]'>
 
-          <div className='left flex gap-4'>
+          <div className='left relative flex gap-4'>
             <img className=' w-[40px] h-[40px] rounded-full' src={logoImage} alt="" />
-            <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' /> </div>
+            <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e)=>{setInputText(e.target.value); setSearchInput(e.target.value)}} onFocus={(e)=>{handleButtonClick(e, filterOptions)}}/> </div>
+            <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
+                <ul className='flex flex-col gap-3'>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={()=>{setField('All')}}><BsGridFill /> All</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay2 ' : 'hideFromBottom'} `} onClick={()=>{setField('author.name')}}> <BsPeopleFill /> People</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay4' : 'hideFromBottom'} `} onClick={()=>{setField('Photos')}}> <IoMdPhotos /> Photos</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay5' : 'hideFromBottom'} `} onClick={()=>{setField('Videos')}}> <BiSolidVideos /> Videos</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay6' : 'hideFromBottom'} `} onClick={()=>{setField('Pages')}}> <RiPagesFill /> Pages</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay7' : 'hideFromBottom'} `} onClick={()=>{setField('Places')}}> <FaPlaceOfWorship /> Places</li>
+                   <li className={`flex items-center gap-4 text-lg font-semibold hover:bg-gray-100 cursor-pointer p-2 rounded-lg ${child === filterOptions && active ? 'showFromTop z-50 delay8' : 'hideFromBottom'} `} onClick={()=>{setField('Groups')}}> <MdGroups /> Groups</li>
+                 </ul> 
+            </div>
           </div>
-
           <div className="center flex h-full ">
             <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{setActiveLink('/')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
             <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{setActiveLink('/Friends')}}> <FaUserFriends className={`w-[30px] h-[30px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Friends' ? 'bottom-0 opacity-100' : ''} `}/> </div> 

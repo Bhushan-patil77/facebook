@@ -29,12 +29,13 @@ import { TbPhotoFilled } from 'react-icons/tb'
 import { MdEmojiEmotions } from 'react-icons/md'
 import { ImLocation2 } from 'react-icons/im'
 import { HiGif } from 'react-icons/hi2'
+import { RotatingLines } from 'react-loader-spinner'
 
 
 
 
 
-function Home() {
+function Home({searchInput, field}) {
 
   const [seeMore, setSeeMore] = useState(false)
   const [message, setMessage] = useState('')
@@ -42,6 +43,8 @@ function Home() {
   const [postTitle, setPostTitle]=useState('Technology')
   const [postContent, setPostContent]=useState()
   const [postAttachment, setPostAttachment]=useState()
+  const [postDeleted, setPostDeleted]=useState()
+  const [userInput, setUserInput]=useState(searchInput)
   const user = JSON.parse(localStorage.getItem('user'))
 
   const [active, setActive] = useState(false);
@@ -54,7 +57,14 @@ function Home() {
   const token = localStorage.getItem('token'); 
   const projectID = '6xetdqeg0242'; 
 
-  useEffect(() => { getPosts() }, [])
+  useEffect(()=>{
+    searchInput !=='' ? searchPosts() : getPosts();
+  },[searchInput, field])
+
+
+
+console.log(field);
+  
 
 
   const getPosts = async () => {
@@ -75,6 +85,54 @@ function Home() {
       })
 
       response = await response.json();
+      console.log(response);
+
+      if (response.status === "success") {
+
+        const data = response.data
+
+        if (response.results > 0) {
+          setMessage('Success')
+          setPosts(data)
+        }
+        if (response.results == 0) {
+          setMessage('No Post Found')
+        }
+
+
+      }
+
+      if (response.status === "fail") {
+        alert(response.message)
+        setMessage('failed')
+      }
+
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  const searchPosts = async () => {
+
+    const url = `https://academics.newtonschool.co/api/v1/facebook/post?search={"${field}":"${searchInput}"}`
+    const projectId = '6xetdqeg0242';
+
+    try {
+
+      setMessage('Loading...')
+
+      var response = await fetch(url, {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          projectID: projectId
+        }
+      })
+
+      response = await response.json();
+      console.log(response);
 
       if (response.status === "success") {
 
@@ -128,6 +186,11 @@ function Home() {
 
       const responseData = await response.json();
       console.log('Post created successfully:', responseData);
+      setParent(null)
+      setChild(null)
+      setPostContent('')
+      setPostAttachment(null)
+      getPosts()
       return responseData;
     } catch (error) {
       console.error('Error creating post:', error);
@@ -138,7 +201,9 @@ function Home() {
 
 
 
-
+ useEffect(()=>{
+  getPosts()
+ },[postDeleted])
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -207,7 +272,7 @@ function Home() {
         <div className="center w-[55%] bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
 
 
-          <div className="createPost w-[59%] rounded-lg p-3 flex flex-col gap-3 border" onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
+          <div className="createPost w-[59%] rounded-lg p-3 flex flex-col gap-3 boxShadow" onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
 
             <div className="upper flex items-center justify-between ">
               <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
@@ -276,16 +341,18 @@ function Home() {
 
               </div>
 
-              <div className="postBtn border w-full h-[35px] rounded-lg bg-blue-500 flex justify-center items-center text-white cursor-pointer" onClick={() => { createPost() }}> Post </div>
+              <div className="postBtn border w-full h-[35px] rounded-lg bg-blue-500 flex justify-center items-center text-white cursor-pointer an" onClick={() => { createPost() }}> Post </div>
 
             </div>
 
           </div>
 
           {
-            posts.map((post, i) => {
-              return <Post key={i} postInfo={post} />
-            })
+            message ==='Loading...' ? <RotatingLines   height="60" width="60" color="green"  strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce"/> 
+                                    :
+                                      posts.map((post, i) => {
+                                        return <div><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} /></div>
+                                      })
           }
 
         </div>
