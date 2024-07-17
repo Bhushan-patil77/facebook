@@ -21,7 +21,7 @@ import '../styles/Custom.css'
 
 import { IoIosArrowDown, IoMdArrowDropdown, IoMdPhotos } from 'react-icons/io'
 import Navbar from '../Navbar'
-import { json, useLocation } from 'react-router-dom'
+import { json, useLocation, useNavigate } from 'react-router-dom'
 import Post from './Post'
 import { RiArrowDropDownFill, RiFileGifFill } from 'react-icons/ri'
 import { FaUserTag } from 'react-icons/fa'
@@ -36,6 +36,7 @@ import { RotatingLines } from 'react-loader-spinner'
 
 
 function Home({searchInput, field}) {
+  const navigate = useNavigate()
 
   const [seeMore, setSeeMore] = useState(false)
   const [message, setMessage] = useState('')
@@ -244,7 +245,7 @@ console.log(field);
 
         <div className="left flex flex-col w-[20%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
           <ul className='flex flex-col  items-start p-4 relative opacity-0 mountAnimation'>
-            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
+            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={()=>{navigate('/Profile')}}><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[15  px]'>Welcome</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>
@@ -269,10 +270,10 @@ console.log(field);
 
 
 
-        <div className="center w-[55%] bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
+        <div className="center w-[55%] px-16 bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
 
 
-          <div className="createPost w-[59%] rounded-lg p-3 flex flex-col gap-3 boxShadow" onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
+          <div className="createPost w-full rounded-lg p-3 flex flex-col gap-3 boxShadow" onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
 
             <div className="upper flex items-center justify-between ">
               <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
@@ -308,9 +309,10 @@ console.log(field);
 
               </div>
 
-              <div className="whatsOnYourMind flex-grow bg-slate-100 rounded-lg">
+              <div className="whatsOnYourMind flex-grow bg-slate-100 rounded-lg" onClick={()=>{document.getElementById('textArea').focus()}}>
                 <div className="commentInput  p-3 ">
                   <textarea
+                    id='textArea'
                     className='w-full bg-slate-100 outline-none rounded-lg pl-2 min-h-16 text-wrap resize-none overflow-hidden '
                     placeholder="What's on your mind, Bhushan. . ."
                     rows="1"
@@ -351,7 +353,7 @@ console.log(field);
             message ==='Loading...' ? <RotatingLines   height="60" width="60" color="green"  strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce"/> 
                                     :
                                       posts.map((post, i) => {
-                                        return <div><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} /></div>
+                                        return <div className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} /></div>
                                       })
           }
 

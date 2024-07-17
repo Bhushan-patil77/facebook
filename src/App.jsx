@@ -8,6 +8,7 @@ import Home from './home/Home'
 import Friends from './friends/Friends'
 import Groups from './groups/Groups'
 import ProtectedRoute from './ProtectedRoute' 
+import Profile from './Profile'
 
 function App() {
   const location = useLocation()
@@ -31,6 +32,7 @@ function App() {
           <Route path='/' element={<Home searchInput={searchInput} field={field}/>} />
           <Route path='/Friends' element={<Friends />} />
           <Route path='/Groups' element={<Groups />} />
+          <Route path='/Profile' element={<Profile />} />
         </Route>
       </Routes>
     </>

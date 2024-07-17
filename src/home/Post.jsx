@@ -376,7 +376,7 @@ const deleteCommentOnPost = async(commentId) =>{
     return (
 
 
-        <div className='relative w-[500px] rounded-lg flex flex-col gap-3 py-4 boxShadow  '>
+        <div className='relative w-full rounded-lg flex flex-col gap-3 py-4 shadow  '>
 
             <span className='absolute top-0 right-4 text-lg font-bold cursor-pointer' onClick={(e)=>{handleButtonClick(e, postOptions)}} >...</span>
             <div ref={postOptions} className={`absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg boxShadow  ${child === postOptions && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
