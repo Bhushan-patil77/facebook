@@ -46,6 +46,7 @@ function Home({searchInput, field}) {
   const [postAttachment, setPostAttachment]=useState()
   const [postDeleted, setPostDeleted]=useState()
   const [userInput, setUserInput]=useState(searchInput)
+  const [postCommentCount, setPostCommentCount]=useState()
   const user = JSON.parse(localStorage.getItem('user'))
 
   const [active, setActive] = useState(false);
@@ -353,7 +354,7 @@ console.log(field);
             message ==='Loading...' ? <RotatingLines   height="60" width="60" color="green"  strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce"/> 
                                     :
                                       posts.map((post, i) => {
-                                        return <div className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} /></div>
+                                        return <div className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount}/></div>
                                       })
           }
 

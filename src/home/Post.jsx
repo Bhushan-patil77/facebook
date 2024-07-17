@@ -26,7 +26,7 @@ import { PiSticker } from 'react-icons/pi'
 import { IoIosSave, IoMdSend } from 'react-icons/io'
 import { MdClearAll, MdClose, MdDelete, MdDeleteForever, MdReportProblem } from 'react-icons/md'
 
-function Post({postInfo, setPostDeleted}) {
+function Post({postInfo, setPostDeleted, setPostCommentCount}) {
   const middleDivRef = useRef(null);
 
 
@@ -46,6 +46,8 @@ function Post({postInfo, setPostDeleted}) {
     const [deletedCommentId, setDeletedCommentId]=useState()
     const [postDeleteMessage, setPostDeleteMessage]=useState()
     const [liked, setLiked]=useState()
+    const [tempCommentCount, setTempCommentCount]=useState(postInfo.commentCount)
+    const [likesCount, setLikesCount]=useState(postInfo.likeCount)
     const postId = postInfo._id
     const token = localStorage.getItem('token')
     const myAuthorId = JSON.parse(localStorage.getItem('user'))._id;
@@ -63,7 +65,9 @@ function Post({postInfo, setPostDeleted}) {
  
     
 
-    
+    useEffect(()=>{
+
+    },[])
  
 
 
@@ -94,6 +98,7 @@ function Post({postInfo, setPostDeleted}) {
           setComments(responseData.data)
           setCommentMessage('success')
           setLastCommentIndex(responseData.data.length)
+          setTempCommentCount(responseData.data.length)
             console.log(responseData);
         } else {
           setCommentMessage('Failed to fetch comments');
@@ -130,8 +135,10 @@ function Post({postInfo, setPostDeleted}) {
   
           if (responseData.status==='success') {
             setCommentingOnPostMessage('success')
+            getPostComments()
             setCommentContent('')
             getPostComments()
+            
     
             console.log(responseData.data);
     
@@ -260,6 +267,7 @@ const deleteCommentOnPost = async(commentId) =>{
       
           if (responseData.status==='success') {
             setLikeMessage('success')
+            setLikesCount(likesCount+1)
             setDislikeMessage('fail')
               console.log(responseData);
           } else {
@@ -296,6 +304,7 @@ const deleteCommentOnPost = async(commentId) =>{
     
         if (responseData.status==='success') {
             setDislikeMessage('success')
+            setLikesCount(likesCount-1)
             setLikeMessage('fail')
         } else if(responseData. message== 'You already disliked this post') {
           setDislikeMessage('You already disliked this post');
@@ -406,10 +415,10 @@ const deleteCommentOnPost = async(commentId) =>{
             <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : '' } </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" /> </div>
 
             <div className='LikedCommentsSharedCounts flex justify-between px-4'>
-                <div className="likedCounts flex items-center gap-2"> <BiSolidLike className={`${likeMessage === 'success' ? 'text-lg text-blue-500 liked' : 'text-blue-500'}`} /> <span className='font-semibold text-sm'>{likeMessage === 'success' ? 'You and other ' : ''}{postInfo.likeCount}</span> </div>
+                <div className="likedCounts flex items-center gap-2"> <BiSolidLike className={`${likeMessage === 'success' ? 'text-lg text-blue-500 liked' : 'text-blue-500'}`} /> <span className='font-semibold text-sm transition-all duration-700'>{likesCount}</span> </div>
 
                 <div className='commentsCount&Shares flex gap-4'>
-                    <div className="flex items-center gap-1"> <span className='font-semibold'>{postInfo.commentCount}</span> <FaComment className='text-blue-500' /></div>
+                    <div className="flex items-center gap-1"> <span className='font-semibold'>{tempCommentCount}</span> <FaComment className='text-blue-500' /></div>
                     <div className="flex items-center gap-1"> <span className='font-semibold'>1.4k</span><RiShareForwardFill className='text-blue-500 text-xl' /></div>
 
                 </div>
