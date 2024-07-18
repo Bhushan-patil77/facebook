@@ -12,9 +12,17 @@ function Pages() {
     const [category, setCategory]=useState()
     const [bio, setBio]=useState()
 
+    
+
     const createPage = async() =>{
         const url = `https://academics.newtonschool.co/api/v1/facebook/channel/`
-        projectId = '6xetdqeg0242'
+        const projectId = '6xetdqeg0242'
+        const token = localStorage.getItem('token')
+
+        const formData = new FormData();
+        formData.append('name', pageName);
+        formData.append('description', bio);
+        formData.append('images', 'hello.jpg');
 
         try {
 
@@ -22,19 +30,49 @@ function Pages() {
                 method: 'POST',
                 headers: {
                   'Authorization': `Bearer ${token}`,
-                  'projectID': projectID,
+                  'projectID': projectId,
                 },
-                body: {
-                    'title': 'postTitle',
-                    'description': 'postDescription',
-                    'images': 'postImage',                             // CREATING A PAGE / CHANNEL
-                }
+                body: formData,
             })
+
+            response = await response.json()
+
+            console.log(response);
             
         } catch (error) {
             
         }
     }
+
+    const getChannelPosts = async()=>{                                //GETTING POSTS OF PERTICULAT CHANNEL. 
+
+      const url = `https://academics.newtonschool.co/api/v1/facebook/channels/6699689b180b961e38c139fa/posts`;
+    const token = localStorage.getItem('token'); // Replace with your method of retrieving the token
+    const projectId = '6xetdqeg0242'
+
+    try {
+        let response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'projectID': projectId
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+    }
+
+    }
+
+
   return (
     <div className='flex w-screen h-[720px] border border-black rounded'>
 
@@ -111,7 +149,7 @@ function Pages() {
 
 
                     <div className="posts bg-white rounded-md flex flex-row justify-between p-4 w-full">
-                    <span className='text-lg font-bold '>Posts</span>
+                    <span className='text-lg font-bold ' onClick={()=>{getChannelPosts()}}>Posts</span>
                     <span className='bg-gray-200 flex justify-center items-center gap-2 px-3 rounded'> <img src={filtersIcon} alt="" /> Filters</span>
 
                     </div>
