@@ -9,6 +9,7 @@ import Friends from './friends/Friends'
 import Groups from './groups/Groups'
 import ProtectedRoute from './ProtectedRoute' 
 import Profile from './Profile'
+import Pages from './Pages'
 
 function App() {
   const location = useLocation()
@@ -33,6 +34,7 @@ function App() {
           <Route path='/Friends' element={<Friends />} />
           <Route path='/Groups' element={<Groups />} />
           <Route path='/Profile' element={<Profile />} />
+          <Route path='/Pages' element={<Pages />} />
         </Route>
       </Routes>
     </>
