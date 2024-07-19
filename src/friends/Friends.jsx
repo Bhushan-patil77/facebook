@@ -8,10 +8,13 @@ import friendsIcon from '../assets/friends.png'
 import { RiArrowRightSLine } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import { FaUserFriends } from 'react-icons/fa'
+import Usercard from '../Usercard'
 
 
 function Friends() {
   const [state, setState] =useState()
+
+  
   return (
     <>
     
@@ -28,7 +31,13 @@ function Friends() {
         </ul>
       </div>
 
-      <div className="right bg-white rounded-lg w-[77%] h-full border border-black"></div>
+      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-8 flex gap-3 flex-wrap overflow-y-auto no-scrollbar border border-black">
+        <Usercard/>
+        <Usercard/>
+        <Usercard/>
+        <Usercard/>
+        <Usercard/>
+      </div>
 
     </div>
     </>
