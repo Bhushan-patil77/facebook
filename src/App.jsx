@@ -16,16 +16,18 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('user') !== null)
   const [searchInput, setSearchInput]=useState();
   const [field, setField ]=useState('Author.name')
+  const [tab, setTab]=useState('/')
 
-  useEffect(() => {
-    console.log(loggedIn)
-  }, [loggedIn]) 
+  useEffect(()=>{
+    setTab(location.pathname)
+  })
+
 
   const shouldShowNavbar = location.pathname !== '/Login' && location.pathname !== '/Signup'
 
   return (
     <>
-      {shouldShowNavbar && <Navbar setSearchInput={setSearchInput} setField={setField} />}
+      {shouldShowNavbar && <Navbar setSearchInput={setSearchInput} setField={setField} tab={tab} />}
       <Routes>
         <Route path='/Login' element={<Login />} />
         <Route path='/Signup' element={<Signup />} />

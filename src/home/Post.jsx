@@ -48,6 +48,7 @@ function Post({postInfo, setPostDeleted, setPostCommentCount}) {
     const [liked, setLiked]=useState()
     const [tempCommentCount, setTempCommentCount]=useState(postInfo.commentCount)
     const [likesCount, setLikesCount]=useState(postInfo.likeCount)
+    const [followedMessage, setFollowedMessage] = useState()
     const postId = postInfo._id
     const token = localStorage.getItem('token')
     const myAuthorId = JSON.parse(localStorage.getItem('user'))._id;
@@ -62,13 +63,111 @@ function Post({postInfo, setPostDeleted, setPostCommentCount}) {
     const commentContainer = useRef()
     const postOptions = useRef()
 
+    const followedFriends = JSON.parse(localStorage.getItem('friendsFollowed'))
+
  
     
 
     useEffect(()=>{
 
     },[])
+
+    const storeAsFollowedInLocalStorage = (userId) =>{
+      
+      const storedData = localStorage.getItem('friendsFollowed')
+
+      const friendsFollowed = storedData ? JSON.parse(storedData) : [];
+
+      friendsFollowed.push(userId);
+
+      localStorage.setItem('friendsFollowed', JSON.stringify(friendsFollowed))
+
+    }
+
+    const removeAsFollowedInLocalStorage = (userId) =>{
+      
+      const storedData = localStorage.getItem('friendsFollowed')
+
+      const friendsFollowed = storedData ? JSON.parse(storedData) : [];
+      const index = friendsFollowed.indexOf(userId);
+  
+      if (index !== -1) {
+        friendsFollowed.splice(index, 1);
+      }
+      
+      localStorage.setItem("friendsFollowed", JSON.stringify(friendsFollowed));
+
+    }
  
+    const followUser = async(userId) =>{
+      
+
+      const url = `https://academics.newtonschool.co/api/v1/quora/follow/${userId}`;
+      const projectId = '6xetdqeg0242';
+  
+    
+      try {
+        setFollowedMessage('Loading...');
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "projectID": projectId,
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+    
+        if (responseData.status==='success') {
+          setFollowedMessage('success')
+          storeAsFollowedInLocalStorage(userId);
+            console.log(responseData);
+        } else {
+          setFollowedMessage('Failed to fetch comments');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  const unfollowUser = async(userId) =>{
+      
+
+    const url = `https://academics.newtonschool.co/api/v1/quora/follow/${userId}`;
+    const projectId = '6xetdqeg0242';
+
+  
+    try {
+      setFollowedMessage('Loading...');
+  
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "projectID": projectId,
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      const responseData = await response.json();
+
+      console.log(responseData);
+  
+      if (responseData.status==='success') {
+        setFollowedMessage('success')
+        removeAsFollowedInLocalStorage(userId);
+          console.log(responseData);
+      } else {
+        setFollowedMessage('Failed to fetch comments');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+}
 
 
     const getPostComments = async() =>{
@@ -405,7 +504,7 @@ const deleteCommentOnPost = async(commentId) =>{
                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
 
                 <div className='channalName&PostInfo flex flex-col justify-center leading-5 h-[40px] '>
-                    <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold'>{postInfo.author.name}</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> <span className='font-semibold text-blue-500'>Follow</span> </div>
+                    <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold' onClick={()=>{unfollowUser(postInfo.author._id)}}>{postInfo.author.name}</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> {followedFriends && followedFriends.includes(postInfo.author._id) ? <span className='font-semibold text-blue-500' onClick={()=>{unfollowUser(postInfo.author._id)}}>Unfollow</span>:<span className='font-semibold text-blue-500' onClick={()=>{followUser(postInfo.author._id)}}>Follow</span>}  </div>
                     <div className="postInfo flex items-center gap-2"> <span className='text-sm  text-gray-500'>Recomended post</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> <span className='text-sm text-gray-500'>{years > 0 ? `${years} years`: ``} {months > 0 ? `${months} months`: ``} {days > 0 ? `${days} days` : ``} { years == 0 && months==0 && days==0 ? `${hours} hours` : ``} ago</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> <span className='text-sm text-gray-500'>public</span> </div>
                 </div>
             </div>

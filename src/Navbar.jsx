@@ -22,9 +22,9 @@ import { RiPagesFill } from 'react-icons/ri'
 import { MdGroups } from 'react-icons/md'
 
 
-function Navbar({setSearchInput, setField}) {
+function Navbar({setSearchInput, setField , tab}) {
   const [inputText, setInputText]=useState()
-  const [searchField, setSearchField]=useState('Author.nam')
+  const [searchField, setSearchField]=useState('Author.name')
 
   const [active, setActive] = useState(false);
   const [parent, setParent] = useState(null);
@@ -33,9 +33,12 @@ function Navbar({setSearchInput, setField}) {
   const filterOptions = useRef()
 
   const [activeLink , setActiveLink]=useState('/')
+  const [activeTab , setActiveTab]=useState('')
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null);
   const [user, setUser]=useState(JSON.parse(localStorage.getItem('user')))
   const [profilePhoto, setProfilePhoto]=useState(user.profileImage)
+
+  console.log(tab);
 
   const navigate = useNavigate()
 
@@ -44,8 +47,11 @@ function Navbar({setSearchInput, setField}) {
   })
 
   useEffect(() => {
+    setActiveLink(tab)
+  }, [tab]);
+
+  useEffect(() => {
     setProfilePhoto(user.profileImage);
-    console.log(profilePhoto);
   }, [user]);
 
   useEffect(()=>{

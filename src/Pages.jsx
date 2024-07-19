@@ -11,6 +11,9 @@ function Pages() {
     const [pageName, setPageName]=useState()
     const [category, setCategory]=useState()
     const [bio, setBio]=useState()
+    const projectID = '6xetdqeg0242'
+    const token = localStorage.getItem('token')
+    const channelId = '669a23c74cde648cc396f337'
 
     
 
@@ -44,33 +47,25 @@ function Pages() {
         }
     }
 
-    const getChannelPosts = async()=>{                                //GETTING POSTS OF PERTICULAT CHANNEL. 
-
-      const url = `https://academics.newtonschool.co/api/v1/facebook/channels/6699689b180b961e38c139fa/posts`;
-    const token = localStorage.getItem('token'); // Replace with your method of retrieving the token
-    const projectId = '6xetdqeg0242'
-
-    try {
-        let response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'projectID': projectId
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
-        return data;
-
-    } catch (error) {
-        console.error('Error fetching posts:', error);
-    }
-
-    }
+    async function fetchPosts() {
+      try {
+          const response = await fetch(`https://academics.newtonschool.co/api/v1/facebook/channels/${channelId}/posts`, {
+              headers: {
+                  'Authorization': token,
+                  'projectID': projectID
+              }
+          });
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+  
+          const data = await response.json();
+          console.log(data);
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  }
 
 
   return (
@@ -149,7 +144,7 @@ function Pages() {
 
 
                     <div className="posts bg-white rounded-md flex flex-row justify-between p-4 w-full">
-                    <span className='text-lg font-bold ' onClick={()=>{getChannelPosts()}}>Posts</span>
+                    <span className='text-lg font-bold ' onClick={()=>{fetchPosts()}}>Posts</span>
                     <span className='bg-gray-200 flex justify-center items-center gap-2 px-3 rounded'> <img src={filtersIcon} alt="" /> Filters</span>
 
                     </div>

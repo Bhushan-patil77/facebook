@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import friendRequestIcons from '../assets/friendRequestsIcon.png'
 import friendSuggestionsIcon from '../assets/friendSuggestionsIcon.png'
 import allFriendsIcon from '../assets/allFriendsIcon.png'
@@ -11,6 +11,7 @@ import { FaUserFriends } from 'react-icons/fa'
 
 
 function Friends() {
+  const [state, setState] =useState()
   return (
     <>
     
