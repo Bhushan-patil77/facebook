@@ -63,9 +63,6 @@ function Home({searchInput, field}) {
     searchInput !=='' ? searchPosts() : getPosts();
   },[searchInput, field])
 
-
-
-console.log(field);
   
 
 
@@ -87,7 +84,6 @@ console.log(field);
       })
 
       response = await response.json();
-      console.log(response);
 
       if (response.status === "success") {
 
@@ -134,7 +130,7 @@ console.log(field);
       })
 
       response = await response.json();
-      console.log(response);
+      
 
       if (response.status === "success") {
 
@@ -354,7 +350,7 @@ console.log(field);
             message ==='Loading...' ? <RotatingLines   height="60" width="60" color="green"  strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce"/> 
                                     :
                                       posts.map((post, i) => {
-                                        return <div className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount}/></div>
+                                        return <div key={i} className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount}/></div>
                                       })
           }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import friendRequestIcons from '../assets/friendRequestsIcon.png'
 import friendSuggestionsIcon from '../assets/friendSuggestionsIcon.png'
 import allFriendsIcon from '../assets/allFriendsIcon.png'
@@ -9,10 +9,82 @@ import { RiArrowRightSLine } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import { FaUserFriends } from 'react-icons/fa'
 import Usercard from '../Usercard'
+import { stringify } from 'postcss'
 
 
 function Friends() {
   const [state, setState] =useState()
+  const [message, setMessage] = useState('')
+  const [posts, setPosts] = useState([])
+  const [uniquePosts, setUniuePosts]=useState([])
+
+  useEffect(()=>{
+    getPosts()
+   },[])
+
+
+  const getUniquePosts = (fetchedPosts) =>{
+      console.log(fetchedPosts);
+      const mp = new Map();
+
+      fetchedPosts.map((post)=>{
+        mp.set(post.author._id, post)
+      })
+     setUniuePosts(Array.from(mp.values()))
+  }
+
+
+
+
+const getPosts = async () => {
+
+  const url = 'https://academics.newtonschool.co/api/v1/facebook/post'
+  const projectId = '6xetdqeg0242';
+
+  try {
+
+    setMessage('Loading...')
+
+    var response = await fetch(url, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        projectID: projectId
+      }
+    })
+
+    response = await response.json();
+    console.log(response);
+
+    if (response.status === "success") {
+
+ getUniquePosts(response.data)
+
+
+      const data = response.data
+
+      if (response.results > 0) {
+        setMessage('Success')
+        setPosts(data)
+      }
+      if (response.results == 0) {
+        setMessage('No Post Found')
+      }
+
+
+    }
+
+    if (response.status === "fail") {
+      alert(response.message)
+      setMessage('failed')
+    }
+
+
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 
   
   return (
@@ -31,12 +103,12 @@ function Friends() {
         </ul>
       </div>
 
-      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-8 flex gap-3 flex-wrap overflow-y-auto no-scrollbar border border-black">
-        <Usercard/>
-        <Usercard/>
-        <Usercard/>
-        <Usercard/>
-        <Usercard/>
+      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-12 flex gap-12 flex-wrap overflow-y-auto no-scrollbar border border-black">
+       {
+        uniquePosts.length > 0 && uniquePosts.map((post, i)=>{
+          return <Usercard key={i} postInfo={post} />
+        })
+       }
       </div>
 
     </div>

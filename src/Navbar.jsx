@@ -6,7 +6,7 @@ import { FaFacebookMessenger, FaPlaceOfWorship, FaUserFriends } from 'react-icon
 import { GoBellFill, GoHomeFill } from 'react-icons/go'
 import { BiSolidUser, BiSolidVideos } from 'react-icons/bi'
 import { HiMiniUserGroup } from 'react-icons/hi2'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import userIcon from './assets/user.png'
 import settingsAndPrivacyIcon from './assets/settingsIcon.png'
 import helpAndSupportIcon from './assets/help&SupportIcon.png'
@@ -22,7 +22,8 @@ import { RiPagesFill } from 'react-icons/ri'
 import { MdGroups } from 'react-icons/md'
 
 
-function Navbar({setSearchInput, setField , tab}) {
+function Navbar({setSearchInput, setField}) {
+  const location = useLocation()
   const [inputText, setInputText]=useState()
   const [searchField, setSearchField]=useState('Author.name')
 
@@ -38,7 +39,7 @@ function Navbar({setSearchInput, setField , tab}) {
   const [user, setUser]=useState(JSON.parse(localStorage.getItem('user')))
   const [profilePhoto, setProfilePhoto]=useState(user.profileImage)
 
-  console.log(tab);
+  console.log(location.pathname);
 
   const navigate = useNavigate()
 
@@ -46,13 +47,15 @@ function Navbar({setSearchInput, setField , tab}) {
     setIsLoggedIn(localStorage.getItem('user')!=null)
   })
 
-  useEffect(() => {
-    setActiveLink(tab)
-  }, [tab]);
+
 
   useEffect(() => {
     setProfilePhoto(user.profileImage);
   }, [user]);
+
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
 
   useEffect(()=>{
     navigate(`${activeLink}`)
