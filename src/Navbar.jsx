@@ -24,6 +24,8 @@ import { MdGroups } from 'react-icons/md'
 
 function Navbar({setSearchInput, setField}) {
   const location = useLocation()
+
+  const path = localStorage.getItem('path')
   const [inputText, setInputText]=useState()
   const [searchField, setSearchField]=useState('Author.name')
 
@@ -34,14 +36,17 @@ function Navbar({setSearchInput, setField}) {
   const filterOptions = useRef()
 
   const [activeLink , setActiveLink]=useState('/')
-  const [activeTab , setActiveTab]=useState('')
+  const [activeTab , setActiveTab]=useState(path)
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user')!==null);
   const [user, setUser]=useState(JSON.parse(localStorage.getItem('user')))
-  const [profilePhoto, setProfilePhoto]=useState(user.profileImage)
+  const [profilePhoto, setProfilePhoto]=useState(userIcon)
 
-  console.log(location.pathname);
 
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    setActiveLink(location.pathname)
+  },[location.pathname])
 
   useEffect(()=>{
     setIsLoggedIn(localStorage.getItem('user')!=null)
@@ -53,13 +58,8 @@ function Navbar({setSearchInput, setField}) {
     setProfilePhoto(user.profileImage);
   }, [user]);
 
-  useEffect(() => {
-    setActiveLink(location.pathname);
-  }, [location.pathname]);
 
-  useEffect(()=>{
-    navigate(`${activeLink}`)
-  },[activeLink])
+
 
   
   useEffect(() => {
@@ -124,9 +124,9 @@ function Navbar({setSearchInput, setField}) {
             </div>
           </div>
           <div className="center flex h-full ">
-            <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{setActiveLink('/')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
-            <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{setActiveLink('/Friends')}}> <FaUserFriends className={`w-[30px] h-[30px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Friends' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
-            <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{setActiveLink('/Groups')}}> <HiMiniUserGroup className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Groups' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
+            <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
+            <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Friends')}}> <FaUserFriends className={`w-[30px] h-[30px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Friends' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
+            <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Groups')}}> <HiMiniUserGroup className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Groups' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
           </div>
 
           <div className="right flex gap-3">

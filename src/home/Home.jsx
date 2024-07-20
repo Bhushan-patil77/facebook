@@ -159,7 +159,6 @@ function Home({searchInput, field}) {
 
   }
 
-
   const createPost = async () => {
     const url = 'https://academics.newtonschool.co/api/v1/facebook/post/';
 
@@ -243,7 +242,7 @@ function Home({searchInput, field}) {
         <div className="left flex flex-col w-[20%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
           <ul className='flex flex-col  items-start p-4 relative opacity-0 mountAnimation'>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={()=>{navigate('/Profile')}}><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
-            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 cursor-pointer' onClick={()=>{navigate('/Friends')}}><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
+            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={()=>{navigate('/Friends')}}><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[15  px]'>Welcome</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={savedicon} alt="" />       <p className='font-semibold  text-[15  px]'>Saved</p></li>
@@ -256,7 +255,7 @@ function Home({searchInput, field}) {
             <label className={`flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2  transition-all transform duration-300 relative ${seeMore ? 'opacity-0 h-0 translate-y-16' : 'py-2'}`}> <input className='absolute opacity-0 peer' type="checkbox" onChange={() => { setSeeMore(!seeMore) }} /> <span className='w-[28px] h-[28px] rounded-full bg-slate-200 flex justify-center items-center transition-all duration-300 rotate-180 '><IoIosArrowDown className={`transition-all  duration-500 ${seeMore ? '-rotate-180' : 'rotate-180'}`} /></span> <p className='font-semibold  text-[15  px]'>See more</p></label>
             <ul className={`w-full overflow-hidden transition-all transform duration-300 ${seeMore ? 'h-[400px]' : 'h-0'}`}>
               <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={messengericon} alt="" />     <p className='font-semibold  text-[15  px]'>Messenger</p></li>
-              <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={pagesicon} alt="" />    <p className='font-semibold  text-[15  px]' onClick={()=>{navigate('/Pages')}}>Pages</p></li>
+              <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 ' onClick={()=>{navigate('/Pages')}}><img className='w-[28px] h-[28px] rounded-full' src={pagesicon} alt="" />    <p className='font-semibold  text-[15  px]' >Pages</p></li>
               <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>
               <label className={`flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 transition-all transform duration-300 relative ${seeMore ? '' : 'opacity-0 absolute -translate-y-16'}`}> <input className='absolute opacity-0 peer' type="checkbox" onChange={() => { setSeeMore(!seeMore) }} /> <span className='w-[28px] h-[28px] rounded-full bg-slate-200 flex justify-center items-center transition-all duration-300 '><IoIosArrowDown className={`transition-all duration-500 ${seeMore ? 'rotate-180' : '-rotate-180'}`} /></span> <p className='font-semibold  text-[15  px]'>See less</p></label>
             </ul>

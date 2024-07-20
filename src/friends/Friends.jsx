@@ -102,8 +102,9 @@ const getPosts = async () => {
           <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[25px] h-[25px]' src={birthdaysIcon} alt="" />  </span>  <p className='text-lg '>Birthdays</p> <IoIosArrowForward className='absolute right-0' /></li>
         </ul>
       </div>
+      
 
-      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-12 flex gap-12 flex-wrap overflow-y-auto no-scrollbar border border-black">
+      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-12 flex gap-12 flex-wrap overflow-y-auto no-scrollbar border">
        {
         uniquePosts.length > 0 && uniquePosts.map((post, i)=>{
           return <Usercard key={i} postInfo={post} />

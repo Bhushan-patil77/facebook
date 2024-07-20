@@ -18,6 +18,11 @@ function App() {
   const [field, setField ]=useState('Author.name')
 
 
+  useEffect(()=>{
+    localStorage.setItem('path', location.pathname)
+  },[location.pathname])
+
+
   const shouldShowNavbar = location.pathname !== '/Login' && location.pathname !== '/Signup'
 
   return (
