@@ -61,6 +61,7 @@ function Home({searchInput, field}) {
 
   useEffect(()=>{
     searchInput !=='' ? searchPosts() : getPosts();
+    console.log(searchInput);
   },[searchInput, field])
 
   

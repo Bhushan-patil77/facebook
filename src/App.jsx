@@ -32,7 +32,7 @@ function App() {
         <Route path='/Login' element={<Login />} />
         <Route path='/Signup' element={<Signup />} />
         <Route element={<ProtectedRoute />}>
-          <Route path='/' element={<Home searchInput={searchInput} field={field}/>} />
+          <Route path='/Home' element={<Home searchInput={searchInput} field={field}/>} />
           <Route path='/Friends' element={<Friends />} />
           <Route path='/Groups' element={<Groups />} />
           <Route path='/Profile' element={<Profile />} />
