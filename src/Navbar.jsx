@@ -106,11 +106,11 @@ function Navbar({setSearchInput, setField}) {
   return (
 
 
-    <div className='flex justify-between items-center px-4 bg-white w-screen h-[56px]'>
+    <div className='flex justify-between items-center px-4 bg-white w-screen h-[56px] shadow'>
 
           <div className='left relative flex gap-4'>
             <img className=' w-[40px] h-[40px] rounded-full' src={logoImage} alt="" />
-            <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e)=>{navigate('/Home'); setInputText(e.target.value); setSearchInput(e.target.value)}} onFocus={(e)=>{handleButtonClick(e, filterOptions)}}/> </div>
+            <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e)=>{navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value)}} onFocus={(e)=>{handleButtonClick(e, filterOptions)}}/> </div>
             <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
                 <ul className='flex flex-col gap-3'>
                    <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField==='All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={()=>{setField('All'); setSearchField('All')}}><BsGridFill /> All</li>
@@ -124,7 +124,7 @@ function Navbar({setSearchInput, setField}) {
             </div>
           </div>
           <div className="center flex h-full ">
-            <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Home')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Home' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Home' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
+            <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
             <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Friends')}}> <FaUserFriends className={`w-[30px] h-[30px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Friends' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
             <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Groups')}}> <HiMiniUserGroup className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Groups' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
           </div>
@@ -133,7 +133,7 @@ function Navbar({setSearchInput, setField}) {
            
            {
                        isLoggedIn && <div className={`relative flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`}  onClick={(e)=>{handleButtonClick(e, profileDropdown)}}>
-                                          <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center  bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"> <img className=' w-full h-full object-cover rounded-full' src={profilePhoto} alt="" /> </div>
+                                          <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center  bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"> <img className=' w-full h-full object-cover rounded-full' src={profilePhoto || userIcon} alt="" /> </div>
                                           <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg shadow top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
 
                                               <div className='flex justify-center m-3'>
