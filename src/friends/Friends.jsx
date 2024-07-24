@@ -104,12 +104,12 @@ const getPosts = async () => {
       </div>
       
 
-      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-12 flex flex-col gap-12  overflow-y-auto no-scrollbar ">
+      <div className="right bg-gray-100 rounded-lg w-[77%] h-full p-6 flex flex-col gap-12  overflow-y-auto no-scrollbar ">
         <span className='text-xl font-bold'>People You May Know</span>
-        <div className="flex flex-wrap gap-12">
+        <div className="flex flex-wrap gap-8">
         {
         uniquePosts.length > 0 && uniquePosts.map((post, i)=>{
-          return <div className='opacity-0 mountAnimation '><Usercard key={i} postInfo={post} /></div>
+          return <div key={i} className='opacity-0 mountAnimation '><Usercard key={i} postInfo={post} /></div>
         })
        }
         </div>
