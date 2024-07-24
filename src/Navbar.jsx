@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import logoImage from './assets/facebookicon.png'
 import { IoIosArrowForward, IoIosSearch, IoMdPhotos } from 'react-icons/io'
 import { CgMenuGridO } from 'react-icons/cg'
-import { FaFacebookMessenger, FaPlaceOfWorship, FaUserFriends } from 'react-icons/fa'
+import { FaFacebookMessenger, FaFlag, FaPlaceOfWorship, FaUserFriends } from 'react-icons/fa'
 import { GoBellFill, GoHomeFill } from 'react-icons/go'
 import { BiSolidUser, BiSolidVideos } from 'react-icons/bi'
 import { HiMiniUserGroup } from 'react-icons/hi2'
@@ -18,8 +18,9 @@ import Login from './Login'
 import { FaCircleQuestion } from 'react-icons/fa6'
 import Friends from './friends/Friends'
 import { BsGridFill, BsPeopleFill } from 'react-icons/bs'
-import { RiPagesFill } from 'react-icons/ri'
+import { RiFlagFill, RiPagesFill, RiTriangleFill } from 'react-icons/ri'
 import { MdGroups } from 'react-icons/md'
+import { TiFlag } from 'react-icons/ti'
 
 
 function Navbar({setSearchInput, setField}) {
@@ -125,6 +126,7 @@ function Navbar({setSearchInput, setField}) {
           </div>
           <div className="center flex h-full ">
             <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/')}}>   <GoHomeFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
+            <div  className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Pages')}}>   <RiFlagFill className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Pages' ? 'text-blue-500' : 'text-gray-400'}`}/>               <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Pages' ? 'bottom-0 opacity-100' : ''} `}/>  </div>  
             <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Friends')}}> <FaUserFriends className={`w-[30px] h-[30px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Friends' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
             <div className='relative flex justify-center items-center  w-[111px] h-full cursor-pointer' onClick={()=>{navigate('/Groups')}}> <HiMiniUserGroup className={`w-[30px] h-[30px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`}/> <span className={`absolute bg-blue-500 w-full h-1 rounded-full -bottom-1 opacity-0 transform transition-all duration-300 ${activeLink === '/Groups' ? 'bottom-0 opacity-100' : ''} `}/> </div> 
           </div>

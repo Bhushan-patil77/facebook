@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { FaCaretDown, FaPlus, FaUserTag } from 'react-icons/fa'
+import { FaCaretDown, FaPlus, FaRegUser, FaUserCheck, FaUserTag } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
 import { TiMessages, TiPlus } from 'react-icons/ti'
 import facebookicon from '../assets/facebookicon.png'
@@ -10,16 +10,18 @@ import feelingActivityIcon from '../assets/feelingActivityIcon.png'
 import visibleToFriendsIcon from '../assets/visibleToFriendsIcon.png'
 import technology from '../assets/technology.jpg'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { PiEyeBold, PiList } from 'react-icons/pi'
+import { PiEyeBold, PiGenderMaleBold, PiList } from 'react-icons/pi'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { IoCameraSharp, IoNotificationsOutline } from 'react-icons/io5'
-import { MdEdit, MdEmojiEmotions, MdKeyboardArrowDown } from 'react-icons/md'
+import { MdEdit, MdEmojiEmotions, MdKeyboardArrowDown, MdOutlineMailOutline } from 'react-icons/md'
 import { BsThreeDots } from 'react-icons/bs'
 import { IoMdArrowDropdown } from 'react-icons/io'
-import { TbPhotoFilled } from 'react-icons/tb'
+import { TbPhoneCalling, TbPhotoFilled } from 'react-icons/tb'
 import { ImLocation2 } from 'react-icons/im'
 import { RiFileGifFill } from 'react-icons/ri'
 import { LuLayoutGrid } from 'react-icons/lu'
+import Post from '../home/Post'
+import { CgGenderMale } from 'react-icons/cg'
 function Page() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -31,6 +33,8 @@ function Page() {
 
     const [pageInfo, setPageInfo]=useState()
     const [posts, setPosts] = useState([])
+    const [author, setAuthor]=useState();
+    const [image, setImage]=useState()
     const [message, setMessage] = useState('')
     const [postTitle, setPostTitle] = useState('Technology')
     const [postContent, setPostContent] = useState()
@@ -71,6 +75,8 @@ function Page() {
             console.log(data);
 
             setPageInfo(data)
+            setAuthor(data.owner.name)
+            setImage(data.image)   //set name and image in post
     
           }
     
@@ -106,6 +112,7 @@ function Page() {
             console.log(response);
 
             setPosts(data)
+            
     
           }
     
@@ -138,7 +145,6 @@ function Page() {
        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Create Ads</p></li>
        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Settings</p></li>
        <button className='flex justify-center items-center gap-4 text-blue-500 font-semibold  py-1 bg-gray-50 rounded-md cursor-pointer'><HiOutlineSpeakerphone />Promote</button>
-
 
        </ul>
       </div>
@@ -199,15 +205,25 @@ function Page() {
                                         <div className="bottom flex gap-4 w-[100%] max-h-[720px] overflow-y-auto no-scrollbar pt-4 ">
 
                                             <div className="left w-[40%] flex flex-col gap-4 sticky top-0 border">
-                                                <div className="intro flex flex-col justify-between w-full h-[250px] p-3 shadow rounded-lg bg-white">
+                                                <div className="intro flex flex-col justify-betwee gap-2 w-full  p-3 shadow rounded-lg bg-white">
                                                     <span className='text-2xl font-bold'>Intro</span>
-                                                    <span className='flex justify-center items-center bg-gray-100 rounded-md py-2 font-semibold' >Add Bio</span>
-                                                    <span className='flex justify-center items-center bg-gray-100 rounded-md py-2 font-semibold' >Edit Details</span>
-                                                    <span className='flex justify-center items-center bg-gray-100 rounded-md py-2 font-semibold' >Add Featured</span>
+                                                    <p className='text-sm'>{pageInfo.description}</p>
+                                                    <div className='border-b'/>
+                                                    <div className='flex items-center gap-6'><FaRegUser className='text-xl' /> <span>{pageInfo.owner.name}</span></div>
+                                                    <div className='flex items-center gap-6'><PiGenderMaleBold className='text-xl' /> <span>{pageInfo.owner.gender}</span></div>
+                                                    <div className='flex items-center gap-6'><MdOutlineMailOutline className='text-xl' /> <span>{pageInfo.owner.email}</span></div>
+                                                    <div className='flex items-center gap-6'><TbPhoneCalling  className='text-xl' /> <span>{pageInfo.owner.phone}</span></div>
                                                 </div>
 
-                                                <div className="photos lex flex-col justify-between w-full h-[250px] p-4 shadow rounded-lg bg-white">
+                                                <div className="photos flex flex-col gap-4 w-full  p-4 shadow rounded-lg bg-white">
+
                                                     <span className='text-2xl font-bold'>Photos</span>
+
+                                                    <div className="photos flex justify-between gap-4 flex-wrap">
+                                                        <img className='rounded-md w-[30%]' src={pageInfo.image} alt="" />
+                                                        <img className='rounded-md w-[30%]' src={pageInfo.owner.profileImage} alt="" />
+                                                        <img className='rounded-md w-[30%]' src={pageInfo.owner.profileImage} alt="" />
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -307,12 +323,12 @@ function Page() {
                                                 </div>
 
                                                 {
-                                                    message === 'Success' && posts.length > 0 && posts.map((post, i) => {
-                                                        if (post.author._id === user._id) {
-                                                            return <div key={i} className='w-full bg-white rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} /></div>
-                                                        }
-
-                                                    })
+                                                   posts && posts.map((post, i)=>{
+                                                      if(post != null)
+                                                     {
+                                                           return <div className='shadow bg-white rounded-md'><Post postInfo={post} author={author} image={image}/></div>
+                                                     }
+                                                   })
                                                 }
 
 

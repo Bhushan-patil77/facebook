@@ -26,7 +26,7 @@ import { PiSticker } from 'react-icons/pi'
 import { IoIosSave, IoMdSend } from 'react-icons/io'
 import { MdClearAll, MdClose, MdDelete, MdDeleteForever, MdReportProblem } from 'react-icons/md'
 
-function Post({postInfo, setPostDeleted, setPostCommentCount}) {
+function Post({postInfo, setPostDeleted, setPostCommentCount, author, image}) {
   const middleDivRef = useRef(null);
 
 
@@ -47,7 +47,7 @@ function Post({postInfo, setPostDeleted, setPostCommentCount}) {
     const [postDeleteMessage, setPostDeleteMessage]=useState()
     const [liked, setLiked]=useState()
     const [tempCommentCount, setTempCommentCount]=useState(postInfo.commentCount)
-    const [likesCount, setLikesCount]=useState(postInfo.likeCount)
+    const [likesCount, setLikesCount]=useState(postInfo.likeCount ? postInfo.likeCount : 0)
     const [followedMessage, setFollowedMessage] = useState()
     const postId = postInfo._id
     const token = localStorage.getItem('token')
@@ -501,10 +501,10 @@ const deleteCommentOnPost = async(commentId) =>{
             </div>
 
             <div className='UserInfo flex items-center gap-3 px-4 '>
-                <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage} alt="" /> </div>
+                <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={postInfo.author.profileImage ? postInfo.author.profileImage : image} alt="" /> </div>
 
                 <div className='channalName&PostInfo flex flex-col justify-center leading-5 h-[40px] '>
-                    <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold' onClick={()=>{unfollowUser(postInfo.author._id)}}>{postInfo.author.name}</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> {followedFriends && followedFriends.includes(postInfo.author._id) ? <span className='font-semibold text-blue-500' onClick={()=>{unfollowUser(postInfo.author._id)}}>Unfollow</span>:<span className='font-semibold text-blue-500' onClick={()=>{followUser(postInfo.author._id)}}>Follow</span>}  </div>
+                    <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold' onClick={()=>{unfollowUser(postInfo.author._id)}}>{postInfo.author.name ? postInfo.author.name : author}</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> {followedFriends && followedFriends.includes(postInfo.author._id) ? <span className='font-semibold text-blue-500' onClick={()=>{unfollowUser(postInfo.author._id)}}>Unfollow</span>:<span className='font-semibold text-blue-500' onClick={()=>{followUser(postInfo.author._id)}}>Follow</span>}  </div>
                     <div className="postInfo flex items-center gap-2"> <span className='text-sm  text-gray-500'>Recomended post</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> <span className='text-sm text-gray-500'>{years > 0 ? `${years} years`: ``} {months > 0 ? `${months} months`: ``} {days > 0 ? `${days} days` : ``} { years == 0 && months==0 && days==0 ? `${hours} hours` : ``} ago</span> <div className='w-1 h-1 bg-gray-500 rounded-full' /> <span className='text-sm text-gray-500'>public</span> </div>
                 </div>
             </div>
