@@ -14,10 +14,16 @@ function Create() {
     const [pageName, setPageName]=useState()
     const [category, setCategory]=useState()
     const [bio, setBio]=useState()
+    const [createdPageId, setCreatedPageId]=useState()
+    const [pageAttachment, setPageAttachment]=useState()
+    
+
     const [message, setMessage]=useState('')
     const projectID = '6xetdqeg0242'
     const token = localStorage.getItem('token')
     const channelId = '669a23c74cde648cc396f337'
+
+    console.log(createdPageId);
 
     
     const createPage = async() =>{
@@ -28,7 +34,7 @@ function Create() {
         const formData = new FormData();
         formData.append('name', pageName);
         formData.append('description', bio);
-        formData.append('images', 'hello.jpg');
+        formData.append('images', pageName );
 
         try {
 
@@ -46,7 +52,43 @@ function Create() {
             if(response.status === 'success')
             {
                 setMessage('Success')
-                navigate('/pages')
+                setCreatedPageId(response.data._id)
+                navigate('/Pages')
+            }
+
+            
+        } catch (error) {
+            
+        }
+    }
+
+    const updateProfileImage = async ()=>{
+        const url = `https://academics.newtonschool.co/api/v1/facebook/channel/${createdPageId}`
+        const projectId = '6xetdqeg0242'
+        const token = localStorage.getItem('token')
+
+        const formData = new FormData();
+        formData.append('owner.profileImage', pageAttachment);
+
+        try {
+
+            let response = await fetch (url, {
+                method: 'PATCH',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'projectID': projectId,
+                },
+                body: formData,
+            })
+
+            response = await response.json()
+
+            if(response.status === 'success')
+            {
+                setMessage('Success')
+
+                console.log(response);
+                // navigate('/pages')
             }
 
             
@@ -85,7 +127,7 @@ function Create() {
 
       <span className='text-3xl font-bold'>Create a page</span>
       <span className='text-[17px] text-gray-500'>Your Page is where people go to learn more about you. Make sure that yours has all of the information they may need.</span>
-      <label className='border flex flex-col rounded-md ' htmlFor="pageName">  <input className='w-full h-full py-3 px-2 rounded-md outline-none' id='pageName' type="text" placeholder='Page name. . .' value={pageName} onChange={(e)=>{setPageName(e.target.value)}} /></label>
+      <label className='border flex flex-col rounded-md ' htmlFor="pageName">  <input className='w-full h-full py-3 px-2 rounded-md outline-none' id='pageName' type="text" placeholder='Page name. . .' value={pageName}  onChange={(e)=>{setPageName(e.target.value)}} /></label>
       <span className='text-[13px] text-gray-500'>Use the name of your business, brand or organisation, or a name that helps explain your Page. Learn more</span>
       <label className='border flex flex-col rounded-md ' htmlFor="category">  <input className='w-full h-full py-3 px-2 rounded-md outline-none' id='category' type="text" placeholder='Category. . .' value={category} onChange={(e)=>{setCategory(e.target.value)}}/></label>
       <span className='text-[13px] text-gray-500'>Enter a category that best describes you.</span>
@@ -99,7 +141,9 @@ function Create() {
                 ></textarea>
       </div>
       <span className='text-[13px] text-gray-500'>Tell people a little about what you do.</span>
+      <label className='border border-black rounded-md bg-slate-400 p-1 flex justify-center items-center text-white font-semibold' htmlFor="pagePhoto"> <input className='w-0 h-0 opacity-0' id='pagePhoto' type="file" accept="image/*" onChange={(e) => setPageAttachment(new Blob([e.target.files[0]], { type: e.target.files[0].type }))}  /> Select Image</label>
       <button className={`border py-1 rounded-md  font-semibold cursor-pointer ${pageName && category && bio ? 'text-white bg-blue-500' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`} onClick={()=>{createPage()}}>Create Page</button>
+   
       <span className='text-[13px] text-gray-500'>By creating a Page, you agree to the Pages, Groups and Events Policies</span>
 
 

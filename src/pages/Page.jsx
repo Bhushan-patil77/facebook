@@ -13,15 +13,16 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { PiEyeBold, PiGenderMaleBold, PiList } from 'react-icons/pi'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { IoCameraSharp, IoNotificationsOutline } from 'react-icons/io5'
-import { MdEdit, MdEmojiEmotions, MdKeyboardArrowDown, MdOutlineMailOutline } from 'react-icons/md'
+import { MdDashboard, MdEdit, MdEmojiEmotions, MdInsights, MdKeyboardArrowDown, MdOutlineMailOutline } from 'react-icons/md'
 import { BsThreeDots } from 'react-icons/bs'
-import { IoMdArrowDropdown } from 'react-icons/io'
+import { IoIosSettings, IoMdArrowDropdown } from 'react-icons/io'
 import { TbPhoneCalling, TbPhotoFilled } from 'react-icons/tb'
 import { ImLocation2 } from 'react-icons/im'
 import { RiFileGifFill } from 'react-icons/ri'
 import { LuLayoutGrid } from 'react-icons/lu'
 import Post from '../home/Post'
 import { CgGenderMale } from 'react-icons/cg'
+import { AiOutlineCodepen, AiOutlineCodeSandbox } from 'react-icons/ai'
 function Page() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -126,7 +127,7 @@ function Page() {
 
   return (
     
-    <div className='w-full h-[720px] flex '> 
+    <div className='w-full h-[720px] flex opacity-0 mountAnimation'> 
 
     <div className="left  w-[25%] shadow border p-3 flex flex-col gap-8">
 
@@ -139,11 +140,11 @@ function Page() {
 
       <div className="lower">
        <ul className='flex flex-col gap-2'>
-       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Professional dashboard</p></li>
-       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Insights</p></li>
-       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Ad Center</p></li>
-       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Create Ads</p></li>
-       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Settings</p></li>
+       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><MdDashboard className='w-[28px] h-[28px] rounded-full'/>    <p className='font-semibold  text-[17px]'>Professional dashboard</p></li>
+       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><MdInsights className='w-[28px] h-[28px] rounded-full'/>    <p className='font-semibold  text-[17px]'>Insights</p></li>
+       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><AiOutlineCodepen className='w-[28px] h-[28px] rounded-full' />    <p className='font-semibold  text-[17px]'>Ad Center</p></li>
+       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><AiOutlineCodeSandbox className='w-[28px] h-[28px] rounded-full' />    <p className='font-semibold  text-[17px]'>Create Ads</p></li>
+       <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><IoIosSettings className='w-[28px] h-[28px] rounded-full' />    <p className='font-semibold  text-[17px]'>Settings</p></li>
        <button className='flex justify-center items-center gap-4 text-blue-500 font-semibold  py-1 bg-gray-50 rounded-md cursor-pointer'><HiOutlineSpeakerphone />Promote</button>
 
        </ul>
@@ -220,9 +221,9 @@ function Page() {
                                                     <span className='text-2xl font-bold'>Photos</span>
 
                                                     <div className="photos flex justify-between gap-4 flex-wrap">
-                                                        <img className='rounded-md w-[30%]' src={pageInfo.image} alt="" />
-                                                        <img className='rounded-md w-[30%]' src={pageInfo.owner.profileImage} alt="" />
-                                                        <img className='rounded-md w-[30%]' src={pageInfo.owner.profileImage} alt="" />
+                                                        <img className='rounded-md w-[30%] shadow border border-gray-300' src={pageInfo.image} alt="" />
+                                                        <img className='rounded-md w-[30%] shadow border border-gray-300' src={pageInfo.owner.profileImage} alt="" />
+                                                        <img className='rounded-md w-[30%] shadow border border-gray-300' src={pageInfo.owner.profileImage} alt="" />
                                                     </div>
 
                                                 </div>

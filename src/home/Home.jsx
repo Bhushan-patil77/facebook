@@ -24,12 +24,14 @@ import Navbar from '../Navbar'
 import { json, useLocation, useNavigate } from 'react-router-dom'
 import Post from './Post'
 import { RiArrowDropDownFill, RiFileGifFill } from 'react-icons/ri'
-import { FaUserTag } from 'react-icons/fa'
+import { FaHeadSideMask, FaUserTag } from 'react-icons/fa'
 import { TbPhotoFilled } from 'react-icons/tb'
-import { MdEmojiEmotions } from 'react-icons/md'
+import { MdCoronavirus, MdEmojiEmotions } from 'react-icons/md'
 import { ImLocation2 } from 'react-icons/im'
 import { HiGif } from 'react-icons/hi2'
 import { RotatingLines } from 'react-loader-spinner'
+import { FcGoodDecision } from 'react-icons/fc'
+import { FaVirusCovid } from 'react-icons/fa6'
 
 
 
@@ -244,20 +246,21 @@ function Home({searchInput, field}) {
         <div className="left flex flex-col w-[22%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
           <ul className='flex flex-col  items-start p-4 relative opacity-0 mountAnimation'>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={()=>{navigate('/Profile')}}><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
+            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' ><MdCoronavirus className='w-[28px] h-[28px] rounded-full text-blue-500' />     <p className='font-semibold  text-[15  px]'>COVID-19 Information Center</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={()=>{navigate('/Friends')}}><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
+            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 ' onClick={()=>{navigate('/Pages')}}><img className='w-[28px] h-[28px] rounded-full' src={pagesicon} alt="" />    <p className='font-semibold  text-[15  px]' >Pages</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[15  px]'>Welcome</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={savedicon} alt="" />       <p className='font-semibold  text-[15  px]'>Saved</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={groupsicon} alt="" />      <p className='font-semibold  text-[15  px]'>Groups</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={videoicon} alt="" />       <p className='font-semibold  text-[15  px]'>Video</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={marketplaceicon} alt="" /> <p className='font-semibold  text-[15  px]'>Marketplace</p></li>
-            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={feedsicon} alt="" />       <p className='font-semibold  text-[15  px]'>Feeds</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={eventsicon} alt="" />      <p className='font-semibold  text-[15  px]'>Events</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={adsManagericon} alt="" />  <p className='font-semibold  text-[15  px]'>Ads Manager</p></li>
             <label className={`flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2  transition-all transform duration-300 relative ${seeMore ? 'opacity-0 h-0 translate-y-16' : 'py-2'}`}> <input className='absolute opacity-0 peer' type="checkbox" onChange={() => { setSeeMore(!seeMore) }} /> <span className='w-[28px] h-[28px] rounded-full bg-slate-200 flex justify-center items-center transition-all duration-300 rotate-180 '><IoIosArrowDown className={`transition-all  duration-500 ${seeMore ? '-rotate-180' : 'rotate-180'}`} /></span> <p className='font-semibold  text-[15  px]'>See more</p></label>
             <ul className={`w-full overflow-hidden transition-all transform duration-300 ${seeMore ? 'h-[400px]' : 'h-0'}`}>
               <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={messengericon} alt="" />     <p className='font-semibold  text-[15  px]'>Messenger</p></li>
-              <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 ' onClick={()=>{navigate('/Pages')}}><img className='w-[28px] h-[28px] rounded-full' src={pagesicon} alt="" />    <p className='font-semibold  text-[15  px]' >Pages</p></li>
+              <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={feedsicon} alt="" />       <p className='font-semibold  text-[15  px]'>Feeds</p></li>
               <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={memoriesicon} alt="" />    <p className='font-semibold  text-[15  px]'>Memories</p></li>
               <label className={`flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 transition-all transform duration-300 relative ${seeMore ? '' : 'opacity-0 absolute -translate-y-16'}`}> <input className='absolute opacity-0 peer' type="checkbox" onChange={() => { setSeeMore(!seeMore) }} /> <span className='w-[28px] h-[28px] rounded-full bg-slate-200 flex justify-center items-center transition-all duration-300 '><IoIosArrowDown className={`transition-all duration-500 ${seeMore ? 'rotate-180' : '-rotate-180'}`} /></span> <p className='font-semibold  text-[15  px]'>See less</p></label>
             </ul>
@@ -351,7 +354,7 @@ function Home({searchInput, field}) {
             message ==='Loading...' ? <RotatingLines   height="60" width="60" color="green"  strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce"/> 
                                     :
                                       posts.map((post, i) => {
-                                        return <div key={i} className='w-full boxShadow rounded-lg'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount}/></div>
+                                        return <div key={i} className='w-full boxShadow rounded-lg opacity-0 mountAnimation'><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount}/></div>
                                       })
           }
 

@@ -511,7 +511,7 @@ const deleteCommentOnPost = async(commentId) =>{
 
             <div className='WhatsOnUsersMind px-4 '> {postInfo.content} </div>
 
-            <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : '' } </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" /> </div>
+            <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : '' } </span> <img className='w-full rounded' src={postInfo.images[0]} alt=""  onDoubleClick={()=>{likePost()}}/> </div>
 
             <div className='LikedCommentsSharedCounts flex justify-between px-4'>
                 <div className="likedCounts flex items-center gap-2"> <BiSolidLike className={`${likeMessage === 'success' ? 'text-lg text-blue-500 liked' : 'text-blue-500'}`} /> <span className='font-semibold text-sm transition-all duration-700'>{likesCount}</span> </div>

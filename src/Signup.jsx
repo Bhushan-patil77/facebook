@@ -358,7 +358,7 @@ const handleSubmit = (e) =>{
           localStorage.setItem("token", response.token)
         
           console.log(response.token);
-          navigate('/Home')
+          navigate('/')
         }
 
         if (response.status === "fail") {

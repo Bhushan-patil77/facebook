@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaUserPlus } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
 import { TiMessages, TiPlus } from 'react-icons/ti'
 import facebookicon from '../assets/facebookicon.png'
@@ -8,11 +8,15 @@ import { useNavigate } from 'react-router-dom'
 import { PiEyeBold } from 'react-icons/pi'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { IoNotificationsOutline } from 'react-icons/io5'
+import { FaMeta, FaUsersViewfinder } from 'react-icons/fa6'
+import { TbFileLike } from 'react-icons/tb'
+import { MdDelete } from 'react-icons/md'
 
 function Pages() {
     const navigate = useNavigate()
     const [pages, setPages]=useState()
     const [message, setMessage]=useState()
+    const user = JSON.parse(localStorage.getItem('user'))
 
     const yearMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -68,8 +72,44 @@ function Pages() {
     
       }
 
+      const deletePage = async(pageId) =>{
+        const url = `https://academics.newtonschool.co/api/v1/facebook/channel/${pageId}`
+        const projectId = '6xetdqeg0242'
+        const token = localStorage.getItem('token')
+
+    
+
+        try {
+
+
+            let response = await fetch (url, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'projectID': projectId,
+                },
+            })
+
+          getPages()
+
+
+            response = await response.json()
+
+            if(response.status === 'success')
+            {
+                setMessage('Success')
+                setCreatedPageId(response.data._id)
+                getPages()
+            }
+
+            
+        } catch (error) {
+            
+        }
+    }
+
   return (
-    <div className='w-full h-[720px] flex '> 
+    <div className='w-full h-[720px] flex opacity-0 mountAnimation'> 
 
      <div className="left  w-[25%] shadow border p-3 flex flex-col gap-8">
 
@@ -82,10 +122,10 @@ function Pages() {
 
        <div className="lower">
         <ul className='flex flex-col gap-2'>
-        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Meta Business Suite</p></li>
-        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Discover</p></li>
-        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Liked Pages</p></li>
-        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'><img className='w-[28px] h-[28px] rounded-full' src={facebookicon} alt="" />    <p className='font-semibold  text-[17px]'>Invites</p></li>
+        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'> <span  className='w-[40px] h-[40px] rounded-full bg-gray-100 flex justify-center items-center'><FaMeta  className='w-[28px] h-[28px]'/>  </span>  <p className='font-semibold  text-[17px]'>Meta Business Suite</p></li>
+        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'> <span  className='w-[40px] h-[40px] rounded-full bg-gray-100 flex justify-center items-center'><FaUsersViewfinder className='w-[28px] h-[28px]'/> </span>   <p className='font-semibold  text-[17px]'>Discover</p></li>
+        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'> <span  className='w-[40px] h-[40px] rounded-full bg-gray-100 flex justify-center items-center'><TbFileLike className='w-[28px] h-[28px]'/>  </span>  <p className='font-semibold  text-[17px]'>Liked Pages</p></li>
+        <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2'> <span  className='w-[40px] h-[40px] rounded-full bg-gray-100 flex justify-center items-center'><FaUserPlus className='w-[28px] h-[28px]'/>  </span>  <p className='font-semibold  text-[17px]'>Invites</p></li>
 
         </ul>
        </div>
@@ -99,20 +139,25 @@ function Pages() {
         {
             message==='Success' && pages.map((page, i)=>{
                 const createdAt = new Date(page.createdAt);
-                return   <div key={i} className="pageCard p-8 bg-white rounded-lg w-full flex flex-col gap-6">
-                            <div className="upper flex gap-4">
+                return   <div key={i} className='relative opacity-0 mountAnimation'>
+                           <div  className="pageCard relative p-8 bg-white rounded-lg w-full flex flex-col gap-6 peer ">
+                            <div className="upper flex gap-4 ">
                             <div className="image  w-[50px] h-[50px] flex justify-center items-center rounded-full"> <img className='w-full h-full rounded-full' src={page.image || usericon} alt="" /></div>
                             <div className="channelName flex flex-col">
                                 <span className='text-lg font-bold'>{page.name}</span>
                                 <span className='text-xs'>{createdAt.getDate()} {yearMonths[createdAt.getMonth()]} {createdAt.getFullYear()}</span>
                             </div>
                             </div>
-                            <div className="lower w-full  flex  justify-between">
+                            <div className="lower w-full  flex  justify-between ">
                                 <div className="viewPage cursor-pointer flex justify-center gap-4 items-center rounded-lg px-8 py-2 bg-blue-50 text-blue-500 font-semibold" onClick={()=>{navigate('/page', {state:page._id})}} ><PiEyeBold  className='text-lg'/>View Page</div>
                                 <div className="promote  cursor-pointer flex justify-center  gap-4 items-center rounded-lg px-8 py-2 bg-gray-100 font-semibold"><HiOutlineSpeakerphone className='text-lg' />Promote</div>
                                 <div className="promote  cursor-pointer flex justify-center  gap-4 items-center rounded-lg px-8 py-2  font-semibold"><IoNotificationsOutline className='text-lg' />Notification</div>
                                 <div className="promote  cursor-pointer flex justify-center  gap-4 items-center rounded-lg px-8 py-2 font-semibold"><TiMessages className='text-lg' />Messages</div>
                             </div>
+                            
+
+                        </div>
+                        <span className={`absolute right-4 top-4 opacity-0 peer-hover:opacity-100 hover:opacity-100 cursor-pointer ${page.owner._id !== user._id ? 'hidden' : ''}`} onClick={()=>{deletePage(page._id)}}><MdDelete /></span>
                         </div>
             })
         }
