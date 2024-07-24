@@ -55,9 +55,7 @@ function Navbar({setSearchInput, setField}) {
 
 
 
-  useEffect(() => {
-    setProfilePhoto(user.profileImage || userIcon);
-  }, [user]);
+
 
 
 
