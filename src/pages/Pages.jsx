@@ -16,6 +16,7 @@ function Pages() {
     const navigate = useNavigate()
     const [pages, setPages]=useState()
     const [message, setMessage]=useState()
+    const [delay, setDelay]=useState()
     const user = JSON.parse(localStorage.getItem('user'))
 
     const yearMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -139,7 +140,8 @@ function Pages() {
         {
             message==='Success' && pages.map((page, i)=>{
                 const createdAt = new Date(page.createdAt);
-                return   <div key={i} className='relative opacity-0 mountAnimation'>
+            
+                return   <div key={i} className={`relative boxShadow rounded-md opacity-0 mountAnimation showFromBottom`}>
                            <div  className="pageCard relative p-8 bg-white rounded-lg w-full flex flex-col gap-6 peer ">
                             <div className="upper flex gap-4 ">
                             <div className="image  w-[50px] h-[50px] flex justify-center items-center rounded-full"> <img className='w-full h-full rounded-full' src={page.image || usericon} alt="" /></div>

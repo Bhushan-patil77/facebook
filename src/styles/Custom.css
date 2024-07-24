@@ -50,6 +50,13 @@
     transform: translateY(5px);
 }
 
+.showFromBottom{
+  transition: all;
+  transition-duration: 200ms;
+  opacity: 100;
+  transform: translateY(10px);
+}
+
 
 
 

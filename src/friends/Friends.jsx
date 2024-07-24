@@ -109,7 +109,7 @@ const getPosts = async () => {
         <div className="flex flex-wrap gap-12">
         {
         uniquePosts.length > 0 && uniquePosts.map((post, i)=>{
-          return <div className='opacity-0 mountAnimation'><Usercard key={i} postInfo={post} /></div>
+          return <div className='opacity-0 mountAnimation '><Usercard key={i} postInfo={post} /></div>
         })
        }
         </div>
