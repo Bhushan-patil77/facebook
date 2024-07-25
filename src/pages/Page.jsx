@@ -42,6 +42,7 @@ function Page() {
     const [postAttachment, setPostAttachment] = useState()
     const [postDeleted, setPostDeleted] = useState()
 
+
     const createPostPopup = useRef()
     const createPostContainer = useRef()
 
@@ -88,7 +89,7 @@ function Page() {
     
       }
 
-      const getPagePosts = async () => {                                      //GOT THE POSTS OF PAGE. SHOW THEM ON PAGE
+      const getPagePosts = async () => {
 
         const url = `https://academics.newtonschool.co/api/v1/facebook/channel/${pageId}/posts`
         const projectId = '6xetdqeg0242';
@@ -124,12 +125,40 @@ function Page() {
     
       }
 
+      useEffect(() => {
+        const handleClick = (e) => {
+          if (child && !child.current.contains(e.target) && e.target !== parent) {
+            setActive(false);
+            setChild(null);
+            setParent(null);
+          }
+        };
+    
+        document.addEventListener('click', handleClick);
+        return () => {
+          document.removeEventListener('click', handleClick);
+        };
+      }, [child, parent]);
+    
+    
+    
+      const handleButtonClick = (e, childRef) => {
+        if (childRef.current !== child) {
+          setParent(e.target);
+          setChild(childRef);
+          setActive(true);
+        } else {
+          setActive(!active);
+        }
+      };
+    
+
 
   return (
     
-    <div className='w-full h-[720px] flex opacity-0 mountAnimation'> 
+    <div className='w-full h-[720px] flex '> 
 
-    <div className="left  w-[25%] shadow border p-3 flex flex-col gap-8">
+    <div className="left  w-[25%] shadow border p-3 flex flex-col gap-8 opacity-0 mountAnimation">
 
       <div className="upper flex flex-col gap-4">
        <span className='text-xl font-bold'>Manage Page</span>
@@ -152,7 +181,7 @@ function Page() {
 
     </div>
 
-    <div className="right w-[75%] bg-gray-100 flex flex-col gap-8 px-[30px] py-1 overflow-y-auto no-scrollbar">
+    <div className="right w-[75%] bg-gray-100 flex flex-col gap-8 px-[30px] py-1 overflow-y-auto no-scrollbar opacity-0 mountAnimation">
 
         {
             pageInfo &&  <div className='flex flex-col items-center overflow-y-auto no-scrollbar  w-full h-full  '>
@@ -257,7 +286,7 @@ function Page() {
 
                                                             <div className='flex items-center gap-2'>
                                                                 <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
-                                                                <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold'>Bhushan Patil</span> </div>
+                                                                <div className="channalInfo flex items-center gap-2 "> <span className='font-semibold'>{pageInfo.owner.name}</span> </div>
                                                             </div>
 
                                                             <div className='visibleToList flex justify-between gap-2 items-center   bg-gray-200 rounded text-sm px-2 py-1'> <img className='h-[70%]' src={visibleToFriendsIcon} alt="" /> <span>Friends</span> <IoMdArrowDropdown /> </div>

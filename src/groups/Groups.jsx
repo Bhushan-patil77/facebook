@@ -10,6 +10,7 @@ import { LuPlus } from 'react-icons/lu'
 import { FaPlus } from 'react-icons/fa'
 import { PiPlusBold } from 'react-icons/pi'
 import Navbar from '../Navbar';
+import { ThreeDots } from 'react-loader-spinner';
 
 function Groups() {
   const [active, setActive] = useState(false);
@@ -85,8 +86,8 @@ useEffect(()=>{
 
       </div>
 
-      <div className="right bg-white rounded-lg w-[77%] h-full flex justify-center items-center">
-        <span className='text-lg font-semibold tracking-wide'>Comming soon . . .</span>
+      <div className="right bg-gray-100 rounded-lg w-[77%] h-full flex justify-center items-center">
+        <span className='text-lg font-semibold tracking-wide flex gap-2 justify-start'>Comming soon . . .</span>
       </div>
 
       </div>
