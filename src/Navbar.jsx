@@ -30,7 +30,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
 
   const path = localStorage.getItem('path')
   const [inputText, setInputText] = useState()
-  const [searchField, setSearchField] = useState()
+  const [searchField, setSearchField] = useState('author.name')
 
   const [active, setActive] = useState(false);
   const [parent, setParent] = useState(null);
@@ -170,13 +170,17 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
 
         <div className='upper relative flex gap-4  w-full justify-between py-1 '>
           {
-            searchActive ? <span className={`text-2xl font-bold text-blue-500 flex justify-center items-center  ${searchActive ? '' : 'hidden'}`} onClick={() => { setSearchActive(false); setIsSearching(false) }}><IoMdArrowRoundBack className='' /></span> : <span className={`text-2xl font-bold text-blue-500`}>facebook</span>
+            searchActive ? <span className={`text-2xl font-bold text-blue-500 flex justify-center items-center  ${searchActive ? '' : 'hidden'}`} onClick={() => { setSearchActive(false); setIsSearching(false); navigate('/') }}><IoMdArrowRoundBack className='' /></span> : <span className={`text-2xl font-bold text-blue-500`}>facebook</span>
           }
 
-          <div className={`w-full h-[40px] flex items-center justify-center  border rounded-3xl bg-[#f0f2f5] ${searchActive ? 'opacity-0 mountAnimation' : 'hideToBottom'}`}><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} onFocus={(e) => { handleButtonClick(e, filterOptions); }} /> </div>
+         {
+          searchActive && <div className={`w-full h-[40px] flex items-center justify-center  border rounded-3xl bg-[#f0f2f5] ${searchActive ? 'opacity-0 mountAnimation' : 'hideToBottom'}`}><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value); setIsSearching(true) }} onFocus={(e) => { handleButtonClick(e, filterOptions); }} /> </div>
+          
+         }
 
+   
           <div className={`flex justify-center items-center gap-4  ${searchActive ? 'hidden' : 'opacity-0 mountAnimation'}`}>
-            <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 `} onClick={() => { setSearchActive(true); setIsSearching(true) }}><TbSearch className='w-full h-full' /></span>
+            <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 `} onClick={() => { setSearchActive(true); setIsSearching(true); navigate('/') }}><TbSearch className='w-full h-full' /></span>
             <span className='w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2'><IoMdMenu className='w-full h-full' /></span>
           </div>
 

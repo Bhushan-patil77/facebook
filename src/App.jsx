@@ -3,7 +3,7 @@ import './App.css'
 import Signup from './Signup'
 import Login from './Login'
 import Navbar from './Navbar'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Home from './home/Home'
 import Friends from './friends/Friends'
 import Groups from './groups/Groups'
@@ -15,6 +15,7 @@ import Page from './pages/Page'
 
 function App() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('user') !== null)
   const [searchInput, setSearchInput]=useState();
   const [isSearching, setIsSearching]=useState()
@@ -24,6 +25,7 @@ function App() {
 
 
   useEffect(()=>{
+ 
     localStorage.setItem('path', location.pathname)
   },[location.pathname])
 

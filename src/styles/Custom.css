@@ -19,8 +19,6 @@
   }
 }
 
-
-
 .mountAnimation{
   animation: mount 0.9s forwards;
 }
@@ -31,6 +29,7 @@
     transition: all;
     opacity: 1;
     transition-duration: 300ms;
+    overflow-y: auto;
     
 }
 
@@ -52,18 +51,11 @@
 
 .showFromBottom{
   transition: all;
-  transition-duration: 300ms;
+  transition-duration: 200ms;
   opacity: 100;
-  transform: translateY(-20px);
+  transform: translateY(10px);
 }
 
-
-.hideToBottom{
-  transition: all;
-  transition-duration: 300ms;
-  opacity: 0;
-  transform: translateY(-20px);
-}
 
 
 
@@ -88,24 +80,9 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   .delay1 {
     transition-delay: 0ms;
+    animation-delay: 3s;
 }
 
 
@@ -194,78 +171,6 @@
     transform: scale(1.6);
     opacity: 0;
 }
-}
-
-
-
-
-
-
-/* Hide element initially */
-.hide {
-  display: none;
-}
-
-/* Fade-in and fade-out animations */
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.fade-out {
-  animation: fadeOut 0.3s ease-in-out;
-}
-
-/* Slide-in and slide-out animations */
-.slide-in {
-  animation: slideIn 0.3s ease-in-out;
-}
-
-.slide-out {
-  animation: slideOut 0.3s ease-in-out;
-}
-
-/* Keyframes for fading in */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Keyframes for fading out */
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* Keyframes for sliding in from the bottom */
-@keyframes slideIn {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Keyframes for sliding out to the bottom */
-@keyframes slideOut {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(20px);
-    opacity: 0;
-  }
 }
 
 
