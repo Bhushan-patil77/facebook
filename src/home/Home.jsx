@@ -42,9 +42,10 @@ import { FaCirclePlus, FaVirusCovid } from 'react-icons/fa6'
 
 
 
-function Home({ searchInput, field }) {
+function Home({ searchInput, field, isSearching, setIsSearching }) {
 
   const navigate = useNavigate()
+
 
   const [seeMore, setSeeMore] = useState(false)
   const [message, setMessage] = useState('')
@@ -251,7 +252,7 @@ function Home({ searchInput, field }) {
 
         <div className="left hidden xl:flex flex-col w-[22%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
           <ul className='flex flex-col  items-start p-4 relative opacity-0 mountAnimation'>
-            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={() => { navigate('/Profile') }}><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
+            <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={() => { navigate('/Profile', {state:user._id}) }}><img className='w-[28px] h-[28px] rounded-full' src={usericon} alt="" />     <p className='font-semibold  text-[15  px]'>{user.name}</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' ><MdCoronavirus className='w-[28px] h-[28px] rounded-full text-blue-500' />     <p className='font-semibold  text-[15  px]'>COVID-19 Info Center</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2' onClick={() => { navigate('/Friends') }}><img className='w-[28px] h-[28px] rounded-full' src={friendsicon} alt="" />     <p className='font-semibold  text-[15  px]'>Friends</p></li>
             <li className='flex items-center gap-3  cursor-pointer hover:bg-slate-50 rounded-lg w-full px-2 py-2 ' onClick={() => { navigate('/Pages') }}><img className='w-[28px] h-[28px] rounded-full' src={pagesicon} alt="" />    <p className='font-semibold  text-[15  px]' >Pages</p></li>
@@ -275,7 +276,7 @@ function Home({ searchInput, field }) {
         </div>
 
 
-        <div className="center xl:w-[54%]  xl:px-16 bg-white rounded-lg border flex flex-col  gap-4 items-center xl:pt-4 overflow-y-auto no-scrollbar">
+        <div className="center xl:w-[54%] w-full  xl:px-16 bg-white rounded-lg border flex flex-col  gap-4 items-center xl:pt-4 overflow-y-auto no-scrollbar">
 
           <div className="reelsContainer hidden xl:flex w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar gap-4 px-1 xl:px-0 opacity-0 mountAnimation ">
             <div className='relative bg-white shadow reelCard xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center flex flex-col justify-between '><img className='h-[70%] w-full object-cover rounded-t-2xl ' src={usericon} alt="" /> <FaCirclePlus className='absolute w-[30px] h-[30px] text-blue-500 top-[63%] left-[40%]' /> <p className='flex justify-center pb-4 xl:text-base text-sm font-semibold '>Create a story</p></div>
@@ -288,7 +289,7 @@ function Home({ searchInput, field }) {
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image1} alt="" /></div>
           </div>
 
-          <div className="createPost w-full rounded-lg p-3 flex xl:flex-col justify-between gap-3 border" onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
+          <div className={`createPost w-full rounded-lg p-3 flex xl:flex-col justify-between gap-3 border ${isSearching ? 'hidden' : 'flex'}`} onClick={(e) => { handleButtonClick(e, createPostPopup) }}>
 
             <div className="upper flex items-center w-full gap-3 justify-between ">
               <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
@@ -364,7 +365,7 @@ function Home({ searchInput, field }) {
 
           </div>
 
-          <div className="reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar flex gap-4 px-1 xl:px-0 opacity-0 mountAnimation ">
+          <div className={`reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar  gap-4 px-1 xl:px-0 opacity-0 mountAnimation ${isSearching ? 'hidden' : 'flex'}`}>
             <div className='relative bg-white shadow reelCard xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center flex flex-col justify-between '><img className='h-[70%] w-full object-cover rounded-t-2xl ' src={usericon} alt="" /> <FaCirclePlus className='absolute w-[30px] h-[30px] text-blue-500 top-[63%] left-[40%]' /> <p className='flex justify-center pb-4 xl:text-base text-sm font-semibold '>Create a story</p></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image1} alt="" /></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image3} alt="" /></div>
@@ -375,16 +376,31 @@ function Home({ searchInput, field }) {
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image1} alt="" /></div>
           </div>
 
+          <div className={`recentSearches  w-full  max-h-[500px] transition-all duration-300 transform ${isSearching ? ' flex flex-col' : 'hidden'}`}>
+            <span className='flex justify-between p-3'><p className='font-semibold text-lg '>Recent</p> <p className='text-blue-500'>See all</p></span>
+            <div className='w-full h-full flex flex-col gap-4 overflow-y-auto no-scrollba p-2'>
+              {
+                posts.map((post, i)=>{
+                   return <div key={i} className="flex items-center gap-4 p-1 hover:bg-gray-200 rounded-md " onClick={()=>{navigate('/Profile', {state:post.author._id}); setIsSearching(false)}}>  <span className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full w-full h-full' src={post.author.profileImage} alt="" /> </span> <span>{post.author.name}</span></div>
+                })
+              }
+            </div>
+
+          </div>
 
 
+          <div className={`${isSearching ? 'hidden' : 'flex flex-col gap-4'}`}>
 
           {
-            message === 'Loading...' ? <RotatingLines height="60" width="60" color="green" strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce" />
+            
+           message === 'Loading...' ? <RotatingLines height="60" width="60" color="green" strokeWidth="9" animationDuration="0.1" wrapperClass="animate-spin animate-bounce" />
               :
               posts.map((post, i) => {
                 return <div key={i} className={`w-full border rounded-lg opacity-0 mountAnimation`}><Post key={i} postInfo={post} setPostDeleted={setPostDeleted} setPostCommentCount={setPostCommentCount} /></div>
               })
           }
+
+         </div>
 
         </div>
 

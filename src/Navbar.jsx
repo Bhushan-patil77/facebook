@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import logoImage from './assets/facebookicon.png'
-import { IoIosArrowForward, IoIosSearch, IoMdMenu, IoMdPhotos } from 'react-icons/io'
+import { IoIosArrowForward, IoIosArrowRoundBack, IoIosSearch, IoMdArrowRoundBack, IoMdMenu, IoMdPhotos } from 'react-icons/io'
 import { CgMenuGridO } from 'react-icons/cg'
 import { FaFacebookMessenger, FaFlag, FaPlaceOfWorship, FaUserFriends } from 'react-icons/fa'
 import { GoBellFill, GoHomeFill } from 'react-icons/go'
@@ -25,7 +25,7 @@ import { TbSearch } from 'react-icons/tb'
 import { AiFillShop } from 'react-icons/ai'
 
 
-function Navbar({ setSearchInput, setField }) {
+function Navbar({ setSearchInput, setField, setIsSearching }) {
   const location = useLocation()
 
   const path = localStorage.getItem('path')
@@ -44,6 +44,8 @@ function Navbar({ setSearchInput, setField }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
   const [profilePhoto, setProfilePhoto] = useState(userIcon)
 
+  const [searchActive, setSearchActive] = useState(false);
+
 
   const navigate = useNavigate()
 
@@ -54,12 +56,6 @@ function Navbar({ setSearchInput, setField }) {
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem('user') != null)
   })
-
-
-
-
-
-
 
 
 
@@ -77,6 +73,8 @@ function Navbar({ setSearchInput, setField }) {
       document.removeEventListener('click', handleClick);
     };
   }, [child, parent]);
+
+
 
 
 
@@ -170,38 +168,50 @@ function Navbar({ setSearchInput, setField }) {
 
       <div className=' xl:hidden flex flex-col justify-between items-center p-2 bg-white w-screen  border-b'>
 
-        <div className='upper relative flex gap-4  w-full justify-between py-1'>
-         <span className='text-2xl font-bold text-blue-500'>facebook</span>
+        <div className='upper relative flex gap-4  w-full justify-between py-1 '>
+          {
+            searchActive ? <span className={`text-2xl font-bold text-blue-500 flex justify-center items-center  ${searchActive ? '' : 'hidden'}`} onClick={() => { setSearchActive(false); setIsSearching(false) }}><IoMdArrowRoundBack className='' /></span> : <span className={`text-2xl font-bold text-blue-500`}>facebook</span>
+          }
 
-         <div className='flex justify-center items-center gap-2'>
-          <span className='w-[30px] h-[30px] flex justify-center items-center  rounded-full bg-gray-100 p-1'><TbSearch className='w-full h-full'/></span>
-          <span className='w-[30px] h-[30px] flex justify-center items-center  rounded-full bg-gray-100 p-1'><IoMdMenu className='w-full h-full' /></span>
-         </div>
+          <div className={`w-full h-[40px] flex items-center justify-center  border rounded-3xl bg-[#f0f2f5] ${searchActive ? 'opacity-0 mountAnimation' : 'hideToBottom'}`}><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} onFocus={(e) => { handleButtonClick(e, filterOptions); }} /> </div>
 
-         
-          {/* <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} onFocus={(e) => { handleButtonClick(e, filterOptions) }} /> </div>
-          <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
-            <ul className='flex flex-col gap-3'>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={() => { setField('All'); setSearchField('All') }}><BsGridFill /> All</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'author.name' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay2 ' : 'hideFromBottom'} `} onClick={() => { setField('author.name'); setSearchField('author.name') }}> <BsPeopleFill /> People</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Photos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay4' : 'hideFromBottom'} `} onClick={() => { setField('Photos'); setSearchField('Photos') }}> <IoMdPhotos /> Photos</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Videos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay5' : 'hideFromBottom'} `} onClick={() => { setField('Videos'); setSearchField('Videos') }}> <BiSolidVideos /> Videos</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Pages' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay6' : 'hideFromBottom'} `} onClick={() => { setField('Pages'); setSearchField('Pages') }}> <RiPagesFill /> Pages</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Places' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay7' : 'hideFromBottom'} `} onClick={() => { setField('Places'); setSearchField('Places') }}> <FaPlaceOfWorship /> Places</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Groups' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay8' : 'hideFromBottom'} `} onClick={() => { setField('Groups'); setSearchField('Groups') }}> <MdGroups /> Groups</li>
-            </ul>
-          </div> */}
+          <div className={`flex justify-center items-center gap-4  ${searchActive ? 'hidden' : 'opacity-0 mountAnimation'}`}>
+            <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 `} onClick={() => { setSearchActive(true); setIsSearching(true) }}><TbSearch className='w-full h-full' /></span>
+            <span className='w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2'><IoMdMenu className='w-full h-full' /></span>
+          </div>
+
 
         </div>
 
-        <div className="middle flex w-full justify-between  py-2 ">
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/') }}>   <GoHomeFill className={`w-[25px] h-[25px]  cursor-pointer transition-all duration-300 ${activeLink == '/' ? 'text-blue-500' : 'text-gray-400'}`} />                  </div>
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/Pages') }}>   <RiFlagFill className={`w-[25px] h-[25px]  cursor-pointer transition-all duration-300 ${activeLink == '/Pages' ? 'text-blue-500' : 'text-gray-400'}`} />        </div>
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/Friends') }}> <FaUserFriends className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink == '/Friends' ? 'text-blue-500' : 'text-gray-400'}`} />   </div>
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}> <HiMiniUserGroup className={`w-[25px] h-[25px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} />  </div>
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}> <RiMessengerFill className={`w-[25px] h-[25px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} />  </div>
-          <div className='relative flex justify-center items-center  w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}> <AiFillShop className={`w-[25px] h-[25px]  cursor-pointer transition-all duration-300 ${activeLink == '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} />  </div>
+        <div className='w-full  h-[42px] flex justify-center items-center'>
+          {
+            searchActive ?
+              <div className={`filterOptions w-full ${searchActive ? 'showFromTop' : 'hideToBottom'}`}>
+                <ul className='flex justify-between'>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('All'); setSearchField('All') }}><BsGridFill /> All</li>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'author.name' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('author.name'); setSearchField('author.name') }}><BsPeopleFill /> People</li>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'Photos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('Photos'); setSearchField('Photos') }}><IoMdPhotos /> Photos</li>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'Pages' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('Pages'); setSearchField('Pages') }}><RiPagesFill /> Pages</li>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'Places' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('Places'); setSearchField('Places') }}><FaPlaceOfWorship /> Places</li>
+                  <li className={`flex flex-col gap-1 w-[47px] h-[47px] justify-center items-center text-xs font-semibold cursor-pointer p-1 rounded-lg ${searchField === 'Groups' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`} onClick={() => { setField('Groups'); setSearchField('Groups') }}><MdGroups /> Groups</li>
+                </ul>
+              </div>
+              :
+              <div className={`middle flex w-full justify-between py-2 ${searchActive ? 'slide-out hide' : 'slide-in'}`}>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/') }}><GoHomeFill className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Pages') }}><RiFlagFill className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Pages' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Friends') }}><FaUserFriends className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Friends' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}><HiMiniUserGroup className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}><RiMessengerFill className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+                <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Groups') }}><AiFillShop className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Groups' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
+              </div>
+          }
         </div>
+
+
+
+
+
 
         <div className="lower hidden flex gap-3">
 
