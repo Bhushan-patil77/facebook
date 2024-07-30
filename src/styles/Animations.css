@@ -1,0 +1,14 @@
+.showFromTop {
+    transition: opacity 300ms, transform 300ms;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  
+.hideFromBottom {
+    transition: opacity 300ms, transform 300ms, visibility 300ms;
+    opacity: 0;
+    transform: translateY(20px); /* Adjust based on desired effect */
+    visibility: hidden;
+  }
+   

@@ -418,7 +418,6 @@ function Profile() {
                             <span className='t font-bold flex justify-between'><span>Friends</span> <span className='text-sm text-blue-500'>See all friends</span></span>
                         </div>
 
-
                   
 
                         {

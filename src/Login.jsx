@@ -97,7 +97,7 @@ function Login({setisloggedin,setpopupshow}) {
         <div className='w-[40%] h-full flex  justify-center pt-[18%]'>
           <div className='w-[70%] flex flex-col gap-4'>
           <h1 className='text-[#0866ff] text-6xl font-bold  fade-in delay-1'>facebook</h1>
-          <p className='text-2xl font-semibold fade-in delay-2'>Facebook helps you connect and share with the people in your life.</p>
+          <p className='text-2xl font-semibold fade-inz delay-2'>Facebook helps you connect and share with the people in your life.</p>
           </div>
         </div>
 

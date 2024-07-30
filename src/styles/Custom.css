@@ -16,14 +16,14 @@
 @keyframes mount {
   to {
     opacity: 1;
-  }
+  } 
 }
 
 .mountAnimation{
   animation: mount 0.9s forwards;
 }
 
-
+ 
 
 .show{
     transition: all;
@@ -42,30 +42,25 @@
 }
 
 
-.showFromTop{
-    transition: all;
-    transition-duration: 300ms;
-    opacity: 100;
-    transform: translateY(5px);
+.showFromTop {
+  transition: opacity 300ms, transform 300ms;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.showFromBottom{
-  transition: all;
-  transition-duration: 200ms;
-  opacity: 100;
-  transform: translateY(10px);
+.showFromBottom {
+  transition: opacity 200ms, transform 200ms;
+  opacity: 1;
+  transform: translateY(0); 
 }
 
-
-
-
-.hideFromBottom{
-    transition: all;
-    transition-duration: 300ms;
-    opacity: 0;
-    transform: translateY(-20px);
-    visibility: hidden;
+.hideFromBottom {
+  transition: opacity 300ms, transform 300ms, visibility 300ms;
+  opacity: 0;
+  transform: translateY(20px); /* Adjust based on desired effect */
+  visibility: hidden;
 }
+
 
 .bottom-shadow{
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2); 
@@ -124,7 +119,7 @@
 }
 
 
-
+ 
 
 .backdrop-1{
   animation: background-blur 1s forwards;
@@ -162,7 +157,7 @@
 @keyframes popAnimation{
   0% {
     opacity: 100;
-    transform: scale(1);
+    transform: scale(1);  
 }
 50% {
     transform: scale(1.5);

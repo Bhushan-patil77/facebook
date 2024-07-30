@@ -12,6 +12,8 @@ import Profile from './Profile'
 import Pages from './pages/Pages'
 import Create from './pages/Create'
 import Page from './pages/Page'
+import Market from './market/Market'
+import Messenger from './messenger/Messenger'
 
 function App() {
   const location = useLocation()
@@ -46,6 +48,8 @@ function App() {
           <Route path='/Pages' element={<Pages />} />
           <Route path='/Page' element={<Page />} />
           <Route path='/Create' element={<Create />} />
+          <Route path='/Messenger' element={<Messenger />} />
+          <Route path='/Market' element={<Market />} />
         </Route>
       </Routes>
     </div>
