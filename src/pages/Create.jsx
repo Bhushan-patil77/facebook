@@ -122,7 +122,7 @@ function Create() {
   return (
     <div className='flex w-screen h-[720px]  rounded'>
 
-    <div className="left flex flex-col gap-4 border w-[25%] h-full p-4">
+    <div className="left flex flex-col gap-4 border w-full xl:w-[25%] h-full p-4">
 
 
       <span className='text-3xl font-bold'>Create a page</span>
@@ -151,7 +151,7 @@ function Create() {
 
     </div>
 
-    <div className="right flex justify-center items-center border px-6 py-1 w-[75%] bg-gray-200">
+    <div className="right hidden xl:flex justify-center items-center border px-6 py-1 w-[75%] bg-gray-200">
 
       <div className="pageContainer w-full h-full bg-white rounded-lg flex flex-col gap-4 p-4">
           <span className='text-lg font-bold'>Preview</span>

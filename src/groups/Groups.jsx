@@ -63,7 +63,7 @@ useEffect(()=>{
 
       <div className='bg-[#f0f2f5] w-screen border-1 border-red-500 h-[720px] py-1 flex justify-between'>
 
-      <div className="left bg-white rounded-lg flex flex-col gap-2 w-[22%] h-full p-2 ">
+      <div className="left bg-white rounded-lg hidden xl:flex flex-col gap-2 w-[22%] h-full p-2 ">
 
         <div className=' w-full flex justify-between p-2 opacity-0 mountAnimation '><p className='font-bold text-2xl'>Groups</p> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-300 rounded-full'> <img className='w-5' src={settingsicon}  alt="" /> </span></div>
         {/* <div className='w-full h-[36px] relative flex items-center justify-center mb-3 border border-black rounded-3xl bg-[#f0f2f5] opacity-1 mountAnimation' onClick={(e)=>{handleButtonClick(e, searchDropdown)}} >
@@ -86,7 +86,7 @@ useEffect(()=>{
 
       </div>
 
-      <div className="right bg-gray-100 rounded-lg w-[77%] h-full flex justify-center items-center">
+      <div className="right bg-gray-100 rounded-lg w-full xl:w-[77%] h-full flex justify-center items-center">
         <span className='text-lg font-semibold tracking-wide flex gap-2 justify-start'>Comming soon . . .</span>
       </div>
 
