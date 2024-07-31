@@ -387,11 +387,11 @@ const handleSubmit = (e) =>{
 
   return (
 
-    <div className='MAIN  w-full h flex justify-center items-center backdrop-1'>
+    <div className='MAIN  w-full h-[85%] flex justify-center items-center backdrop-1 rounded-xl px-'>
 
      
 
-      <div className="relative shadow w-[30%] bg-white  flex flex-col  rounded-xl fade-in">
+      <div className="relative  xl:w-[30%] bg-white  flex flex-col  rounded-xl fade-in boxShadow ">
         <div className="heading flex flex-col gap-1 border-b p-3 "> <p className='text-3xl font-bold'>Sign Up</p> <p className='tracking-tight font-semibold text-gray-600'>It's quick and easy.</p></div>
         <div id='form' className="form  p-4">
           <form action=""  onSubmit={handleSubmit}  >

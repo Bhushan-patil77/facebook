@@ -251,7 +251,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
   return (
 
-    <>
+    <div className=''>
 
 
       <div className='DESKTOP bg-[#f0f2f5] hidden xl:flex w-screen border-1 border-red-500 h-[720px] py-1 justify-between'>
@@ -394,7 +394,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
 
 
-      <div className='MOBILE bg-[#f0f2f5] xl:hidden flex w-screen border-1 border-red-500 h-[720px] p-1 justify-between'>
+      <div className='MOBILE bg-[#f0f2f5] xl:hidden flex w-screen border-1 border-red-500 h-[720px] p-1 justify-between '>
 
 
         <div className="left hidden flex flex-col w-[20%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">
@@ -427,7 +427,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
         <div className="center w-full  bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
 
 
-          <div className={`reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar  gap-4 px-1 xl:px-0 opacity-0 mountAnimation ${isSearching ? 'hidden' : 'flex'}`}>
+          <div className={`reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar  gap-4 px-1 xl:px-0 opacity-0 mountAnimation ${isSearching ? 'hidden' : 'flex'} `}>
             <div className='relative bg-white shadow reelCard xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center flex flex-col justify-between '><img className='h-[70%] w-full object-cover rounded-t-2xl ' src={usericon} alt="" /> <FaCirclePlus className='absolute w-[30px] h-[30px] text-blue-500 top-[63%] left-[40%]' /> <p className='flex justify-center pb-4 xl:text-base text-sm font-semibold '>Create a story</p></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image1} alt="" /></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image3} alt="" /></div>
@@ -539,7 +539,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
       </div>
 
-    </>
+    </div>
   )
 }
 
