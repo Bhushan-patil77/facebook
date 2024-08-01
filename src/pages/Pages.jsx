@@ -141,7 +141,7 @@ function Pages() {
       <div className="right xl:w-[75%] w-full bg-gray-100 flex flex-col gap-8 xl:px-[100px] xl:py-8 py-2 overflow-y-auto no-scrollbar">
 
         <div className='flex flex-row xl:hidden gap-2 w-full overflow-x-auto no-scrollbar min-h-8 font-semibold'>
-          <span className='flex items-center gap-2 bg-gray-300 px-3 rounded-full whitespace-nowrap text-blue-500' onClick={() => { navigate('/Create') }}><AiFillPlusCircle /> Create Page </span>
+          <span className='flex items-center gap-2 bg-gray-300 px-3 rounded-full whitespace-nowrap text-blue-500 cursor-pointer' onClick={() => { navigate('/Create') }}><AiFillPlusCircle /> Create Page </span>
           <span className='flex items-center gap-2 bg-gray-300 px-3 rounded-full whitespace-nowrap'><AiFillLike /> Liked Pages</span>
           <span className='flex items-center gap-2 bg-gray-300 px-3 rounded-full whitespace-nowrap'><FaUserPlus /> Invites</span>
           <span className='flex items-center gap-2 bg-gray-300 px-3 rounded-full whitespace-nowrap'><BiLogoMeta /> Meta Business Suite</span>

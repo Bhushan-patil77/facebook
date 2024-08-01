@@ -105,7 +105,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
 
   return (
 
-    <div className='z-50'>
+    <div className=''>
 
       <div className='hidden xl:flex justify-between items-center px-4 bg-white w-screen h-[56px] shadow'>
 
@@ -137,7 +137,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
           {
             isLoggedIn && <div className={`relative flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`} onClick={(e) => { handleButtonClick(e, profileDropdown) }}>
               <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center  bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"> <img className=' w-full h-full object-cover rounded-full' src={profilePhoto || userIcon} alt="" /> </div>
-              <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg shadow top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
+              <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg boxShadow py-4 top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
 
                 <div className='flex justify-center m-3 '>
                   <div className="flex flex-col p-3 gap-3 w-full shadow rounded-lg">
@@ -167,7 +167,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
       </div>
 
 
-      <div className=' xl:hidden flex flex-col justify-between items-center p-2 bg-white w-screen  border-b '>
+      <div className=' xl:hidden relative flex flex-col justify-between items-center p-2 bg-white w-screen  border-b z-100'>
 
         <div className='upper relative flex gap-4  w-full justify-between py-1 '>
           {
@@ -181,18 +181,18 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
 
 
           <div className={`flex justify-center items-center gap-4  ${searchActive ? 'hidden' : 'opacity-0 mountAnimation'}`}>
-            <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 `} onClick={() => { setSearchActive(true); setIsSearching(true); navigate('/') }}><TbSearch className='w-full h-full' /></span>
-            <span className='w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2' onClick={(e) => { handleButtonClick(e, profileDropdownM) }}><IoMdMenu className='w-full h-full' /></span>
-            <div ref={profileDropdownM} className={`profileDropdown absolute w-full right-0 bg-white rounded-lg boxShadow py-4 top-[100%] cursor-pointer z-100  ${child === profileDropdownM && active ? 'showFromTop' : 'hideFromBottom'}`}>
+            <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2  cursor-pointer`} onClick={() => { setSearchActive(true); setIsSearching(true); navigate('/') }}><TbSearch className='w-full h-full' /></span>
+            <span className='w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 cursor-pointer' onClick={(e) => { handleButtonClick(e, profileDropdownM) }}><IoMdMenu className='w-full h-full' /></span>
+
+            <div ref={profileDropdownM} className={`profileDropdown absolute w-full right-0 bg-white rounded-lg boxShadow py-4 top-[100%] cursor-pointer z-50  ${child === profileDropdownM && active ? 'showFromTop z-100 ' : 'hideFromBottom'}`}>
 
               <div className='flex justify-center m-3 '>
                 <div className="flex flex-col p-3 gap-3 w-full shadow rounded-lg">
-                  <div className='flex gap-3'> <div className='flex items-center gap-3 rounded-lg  hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <BiSolidUser className='w-[60%] h-[60%] text-white' /> </span>  <p className='text-lg '> {user.name} </p> </div> </div>
+                  <div className='flex gap-3'> <div className='flex items-center gap-3 rounded-lg  hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <BiSolidUser className='w-[60%] h-[60%] text-white' /> </span>  <p className='text-lg '> {user && user.name} </p> </div> </div>
                   <div className='border-[0.5px]' />
                   <div className='font-semibold text-blue-400'>See all profiles</div>
                 </div>
               </div>
-
               <ul>
                 <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[40px] h-[40px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[20px] h-[20px]' src={settingsAndPrivacyIcon} alt="" />  </span>  <p className='text-lg '>Settings & privacy</p> <IoIosArrowForward className='absolute right-1' /></li>
                 <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative '> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[20px] h-[20px]' src={helpAndSupportIcon} alt="" />  </span>  <p className='text-lg '>Help & support</p> <IoIosArrowForward className='absolute right-1' /></li>
@@ -201,12 +201,13 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
                 <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative ' onClick={() => { handleLogout() }}> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[20px] h-[20px]' src={logoutIcon} alt="" />  </span>  <p className='text-lg '  >Log out</p> </li>
               </ul>
             </div>
+
           </div>
 
 
         </div>
 
-        <div className='w-full  h-[42px] flex justify-center items-center'>
+        <div className='w-full h-[42px] flex justify-center items-center'>
           {
             searchActive ?
               <div className={`filterOptions w-full ${searchActive ? 'showFromTop' : 'hideToBottom'}`}>
@@ -220,7 +221,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
                 </ul>
               </div>
               :
-              <div className={`middle flex w-full justify-between py-2 ${searchActive ? 'slide-out hide' : 'slide-in'}`}>
+              <div className={`middle flex w-full justify-between py-2  ${searchActive ? 'slide-out hide ' : 'slide-in'} ${child === profileDropdownM && active ? 'z-[-1] ' : 'z-[1]'}`}>
                 <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/') }}><GoHomeFill className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
                 <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Pages') }}><RiFlagFill className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Pages' ? 'text-blue-500' : 'text-gray-400'}`} /></div>
                 <div className='relative flex justify-center items-center w-full h-full cursor-pointer' onClick={() => { navigate('/Friends') }}><FaUserFriends className={`w-[25px] h-[25px] cursor-pointer transition-all duration-300 ${activeLink === '/Friends' ? 'text-blue-500' : 'text-gray-400'}`} /></div>

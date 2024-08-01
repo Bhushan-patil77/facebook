@@ -393,7 +393,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
 
 
-      <div className='MOBILE bg-[#f0f2f5] xl:hidden flex w-screen border-1 border-red-500 h-[720px] p-1 justify-between '>
+      <div className='MOBILE absolute bg-[#f0f2f5] xl:hidden flex w-screen border-1 border-red-500 h-[720px] p-1 justify-between '>
 
 
         <div className="left hidden flex flex-col w-[20%] bg-white rounded-lg border max-h-full overflow-auto no-scrollbar p-2">

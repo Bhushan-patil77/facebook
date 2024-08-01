@@ -19,12 +19,11 @@
   } 
 }
 
-.mountAnimation{
+.mountAnimation{ 
   animation: mount 0.9s forwards;
 }
 
  
-
 .show{
     transition: all;
     opacity: 1;
