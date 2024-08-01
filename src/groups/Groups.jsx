@@ -86,7 +86,7 @@ useEffect(()=>{
 
       </div>
 
-      <div className="right bg-gray-100 rounded-lg w-full xl:w-[77%] h-full flex justify-center items-center">
+      <div className="right bg-gray-100 rounded-lg w-full xl:w-[77%] h-full flex justify-center items-center opacity-0 mountAnimation">
         <span className='text-lg font-semibold tracking-wide flex gap-2 justify-start'>Comming soon . . .</span>
       </div>
 
