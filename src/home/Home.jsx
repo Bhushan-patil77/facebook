@@ -98,6 +98,8 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
       response = await response.json();
 
+      console.log(response);
+
       if (response.status === "success") {
 
         const data = response.data
@@ -464,7 +466,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
           </div>
 
 
-          <div ref={createPostPopupM} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopupM && active ? 'showFromTop ' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerM.current.contains(e.target) ? '' : setChild(null) }}>
+          <div ref={createPostPopupM} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopupM && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerM.current.contains(e.target) ? '' : setChild(null) }}>
 
             <div ref={createPostContainerM} className={`createComment bg-white  absolute  flex flex-col justify-between gap-3 p-3  left-0 top-16 rounded-lg w-full h-[70%] boxShadow `}>
 
