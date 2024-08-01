@@ -112,7 +112,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
         <div className='left relative flex gap-4'>
           <img className=' w-[40px] h-[40px] rounded-full' src={logoImage} alt="" />
           <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} onFocus={(e) => { handleButtonClick(e, filterOptions) }} /> </div>
-          <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
+          <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-60' : 'hideFromBottom'}`}>
             <ul className='flex flex-col gap-3'>
               <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={() => { setField('All'); setSearchField('All') }}><BsGridFill /> All</li>
               <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'author.name' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay2 ' : 'hideFromBottom'} `} onClick={() => { setField('author.name'); setSearchField('author.name') }}> <BsPeopleFill /> People</li>
@@ -183,7 +183,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
           <div className={`flex justify-center items-center gap-4  ${searchActive ? 'hidden' : 'opacity-0 mountAnimation'}`}>
             <span className={`w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2 `} onClick={() => { setSearchActive(true); setIsSearching(true); navigate('/') }}><TbSearch className='w-full h-full' /></span>
             <span className='w-[40px] h-[40px] flex justify-center items-center  rounded-full bg-gray-100 p-2' onClick={(e) => { handleButtonClick(e, profileDropdownM) }}><IoMdMenu className='w-full h-full' /></span>
-            <div ref={profileDropdownM} className={`profileDropdown absolute w-full right-0 bg-white rounded-lg shadow top-[120%] cursor-pointer ${child === profileDropdownM && active ? 'showFromTop z-[1000]' : 'hideFromBottom z-0'}`}>
+            <div ref={profileDropdownM} className={`profileDropdown absolute w-full right-0 bg-white rounded-lg boxShadow py-4 top-[100%] cursor-pointer z-100  ${child === profileDropdownM && active ? 'showFromTop' : 'hideFromBottom'}`}>
 
               <div className='flex justify-center m-3 '>
                 <div className="flex flex-col p-3 gap-3 w-full shadow rounded-lg">

@@ -41,6 +41,7 @@ function Friends() {
 
   const getPosts = async () => {
 
+
     const url = 'https://academics.newtonschool.co/api/v1/facebook/post'
     const projectId = '6xetdqeg0242';
 
@@ -118,7 +119,7 @@ function Friends() {
           </ul>
 
           <span className='text-xl font-bold'>People You May Know</span>
-          <div className="flex flex-wrap gap-8">
+          <div className="flex flex-wrap gap-8 p-4 justify-between">
             {
               uniquePosts.length > 0 && uniquePosts.map((post, i) => {
                 return <div key={i} className='opacity-0 mountAnimation '><Usercard key={i} postInfo={post} /></div>

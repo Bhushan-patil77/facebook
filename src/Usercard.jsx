@@ -6,7 +6,7 @@ function Usercard({postInfo}) {
   return (
     <div className='w-[150px] xl:w-[230px] xl:h-[385px] rounded-xl flex flex-col justify-between bg-white boxShadow'>
       <div className="imageAndName flex flex-col ">
-        <div className='w-full xl:h-[230px] h-[150px] rounded-md bg-gray-50 p-[4px] '>{postInfo.author.profileImage != null ? <img className='w-full rounded-t-md' src={postInfo.author.profileImage} alt="" /> : <FaUserLarge className='w-full h-full text-gray-100 p-2'/> }</div>
+        <div className='w-full xl:h-[230px] h-[150px] rounded-xl bg-gray-50 p-[4px] '>{postInfo.author.profileImage != null ? <img className='w-full rounded-t-xl' src={postInfo.author.profileImage} alt="" /> : <FaUserLarge className='w-full h-full text-gray-100 p-2'/> }</div>
         <span className='font-semibold p-2 capitalize xl:text-base text-sm'>{postInfo.author.name}</span>
       </div>
       <div className="addFriendAndRemove flex flex-col gap-2 p-2">

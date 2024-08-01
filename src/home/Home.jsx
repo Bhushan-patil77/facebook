@@ -79,7 +79,6 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
 
 
-
   const getPosts = async () => {
 
     const url = 'https://academics.newtonschool.co/api/v1/facebook/post'
@@ -317,9 +316,9 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
           </div>
 
 
-          <div ref={createPostPopupD} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopupD && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerD.current.contains(e.target) ? '' : setChild(null) }}>
+          <div ref={createPostPopupD} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] z-50 ${child === createPostPopupD && active ? 'showFromTop  ' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerD.current.contains(e.target) ? '' : setChild(null) }}>
 
-            <div ref={createPostContainerD} className={`createComment bg-white  absolute z-50 flex flex-col justify-between gap-3 p-3  left-[23.3%] bottom-[5%] rounded-lg w-[820px] h-[670px] boxShadow `}>
+            <div ref={createPostContainerD} className={`createComment bg-white absolute flex flex-col justify-between gap-3 p-3  left-[23.3%] bottom-[5%] rounded-lg w-[820px] h-[670px] boxShadow `}>
 
               <div className="heading p-3 border rounded-lg bg-slate-100 flex justify-center text-lg tracking-wider font-bold"> Create post </div>
 
@@ -427,8 +426,8 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
         <div className="center w-full  bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
 
 
-          <div className={`reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar  gap-4 px-1 xl:px-0 opacity-0 mountAnimation ${isSearching ? 'hidden' : 'flex'} `}>
-            <div className='relative bg-white shadow reelCard xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center flex flex-col justify-between '><img className='h-[70%] w-full object-cover rounded-t-2xl ' src={usericon} alt="" /> <FaCirclePlus className='absolute w-[30px] h-[30px] text-blue-500 top-[63%] left-[40%]' /> <p className='flex justify-center pb-4 xl:text-base text-sm font-semibold '>Create a story</p></div>
+          <div className={`reelsContainer xl:hidden w-full xl:min-h-[251px] min-h-[201px] overflow-x-auto no-scrollbar  gap-4 px-1 xl:px-0 opacity- mountAnimatio ${isSearching ? 'hidden' : 'flex'} `}>
+            <div className='relative  bg-white shadow reelCard xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center flex flex-col justify-between '><img className='h-[70%] w-full object-cover rounded-t-2xl ' src={usericon} alt="" /> <FaCirclePlus className='absolute w-[30px] h-[30px] text-blue-500 top-[63%] left-[40%]' /> <p className='flex justify-center pb-4 xl:text-base text-sm font-semibold '>Create a story</p></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image1} alt="" /></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image3} alt="" /></div>
             <div className='reelCard bg-white shadow xl:min-w-[150px] xl:h-[250px] min-w-[110px] h-[200px] rounded-2xl object-cover object-center '><img className='h-full w-full object-cover rounded-2xl ' src={image4} alt="" /></div>
@@ -465,9 +464,9 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
           </div>
 
 
-          <div ref={createPostPopupM} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopupM && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerM.current.contains(e.target) ? '' : setChild(null) }}>
+          <div ref={createPostPopupM} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === createPostPopupM && active ? 'showFromTop ' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerM.current.contains(e.target) ? '' : setChild(null) }}>
 
-            <div ref={createPostContainerM} className={`createComment bg-white  absolute z-50 flex flex-col justify-between gap-3 p-3  left-0 top-16 rounded-lg w-full h-[70%] boxShadow `}>
+            <div ref={createPostContainerM} className={`createComment bg-white  absolute  flex flex-col justify-between gap-3 p-3  left-0 top-16 rounded-lg w-full h-[70%] boxShadow `}>
 
               <div className="heading p-2 border rounded-lg bg-slate-100 flex justify-center text-lg tracking-wider font-bold"> Create post </div>
 
