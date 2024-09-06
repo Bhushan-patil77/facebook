@@ -67,10 +67,11 @@ function Post({ postInfo, setPostDeleted, setPostCommentCount }) {
 
 
 
+useEffect(()=>{
+  console.log(parent, child);
+  
+},[child, parent])
 
-  useEffect(() => {
-
-  }, [])
 
   const storeAsFollowedInLocalStorage = (userId) => {
 
@@ -445,35 +446,36 @@ function Post({ postInfo, setPostDeleted, setPostCommentCount }) {
     setHours(hours)
   }
 
-
-
-
   useEffect(() => {
-    const handleClick = (e) => {
-      if (child && !child.current.contains(e.target) && e.target !== parent) {
-        setActive(false);
-        setChild(null);
-        setParent(null);
+
+    const handleClicks = (e) => {
+
+      let parentElement = e.target.closest('.parent')
+
+      if (parentElement) {
+        setActive(!active)
+        setParent(parentElement.classList[1])
+        setChild(parentElement.nextElementSibling.classList[1])
       }
+      else if (e.target.closest('.child')) {
+
+      }
+      else {
+        setChild(null)
+        setActive(false)
+      }
+
     };
 
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClicks);
+
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClicks);
     };
-  }, [child, parent]);
 
 
+  }, [child, parent, active]);
 
-  const handleButtonClick = (e, childRef) => {
-    if (childRef.current !== child) {
-      setParent(e.target);
-      setChild(childRef);
-      setActive(true);
-    } else {
-      setActive(!active);
-    }
-  };
 
 
   return (
@@ -482,8 +484,8 @@ function Post({ postInfo, setPostDeleted, setPostCommentCount }) {
 
       <div className='DESKTOP hidden xl:flex relative w-full rounded-lg  flex-col gap-3 py-4 shadow  '>
 
-        <span className='absolute top-0 right-4 text-lg font-bold cursor-pointer' onClick={(e) => { handleButtonClick(e, postOptions) }} >...</span>
-        <div ref={postOptions} className={`absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg boxShadow  ${child === postOptions && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
+        <span  className={`parent postOptions${postInfo._id}Parent absolute top-0 right-4 text-lg font-bold cursor-pointer`} >...</span>
+        <div   className={`child  postOptions${postInfo._id}Child absolute w-[320px]  bg-white border right-4 p-3 top-8 rounded-lg boxShadow  ${child === `postOptions${postInfo._id}Child` && active ? 'showFromTop z-50' : 'hideFromBottom'} `}>
           <ul className='flex flex-col gap-4'>
             <li className='flex gap-3 cursor-pointer' onClick={() => { setParent(null); setChild(null) }}> <IoIosSave />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Save Post</p>  <p className='text-xs text-gray-300'>Add this to your saved items.</p></span> </li>
             <li className='flex gap-3 cursor-pointer' onClick={() => { setParent(null); setChild(null) }}> <FaEdit />  <span className='flex flex-col gap-1 '> <p className=' leading-3 font-semibold'>Edit Post</p>  <p className='text-xs text-gray-300'>Edit content of post.</p></span> </li>
@@ -525,12 +527,12 @@ function Post({ postInfo, setPostDeleted, setPostCommentCount }) {
           <div className="like peer flex gap-2 items-center cursor-pointer "><img src={likeblankicon} alt="" /> <span>Like</span> </div>
           <div className="reactions bg-white px-4 gap-3 h-[25px] rounded-full flex justify-between absolute border transition-all duration-300 scale-0 -translate-x-[90px] -translate-y-6 peer-hover:-translate-y-[25px] peer-hover:translate-x-1 peer-hover:scale-100 hover:-translate-y-[25px] hover:translate-x-1 hover:scale-100"> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={likegif} alt="" onClick={() => { likePost() }} /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={dislikegif} alt="" onClick={() => { dislikePost() }} /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={wowGif} alt="" /> <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={laughgif} alt="" />  <img className='cursor-pointer transition-all duration-300 hover:scale-[1.2] hover:-translate-y-2' src={caregif} alt="" /></div>
 
-          <div className="comment flex gap-2 items-center cursor-pointer" onClick={(e) => { handleButtonClick(e, commentPopup); getPostComments() }}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
+          <div className={`parent commentPopup${postInfo._id}Parent comment flex gap-2 items-center cursor-pointer`} onClick={(e) => { getPostComments() }}><img src={commentblankicon} alt="" /> <span>Comment</span></div>
 
-          <div ref={commentPopup} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === commentPopup && active ? 'showFromTop z-50' : 'hideFromBottom'}`} onClick={(e) => { commentContainer.current.contains(e.target) ? '' : setChild(null) }}>
+          <div className={` child commentPopup${postInfo._id}Child w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] ${child === `commentPopup${postInfo._id}Child` && active ? 'showFromTop z-50' : 'hideFromBottom'}`} >
 
-            <div ref={commentContainer} className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] boxShadow rounded w-[820px] h-[670px] `}>
-              <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={() => { setChild(null) }} /></div>
+            <div  className={`createComment bg-white  absolute z-50 flex flex-col  justify-between  left-[23.3%] bottom-[5%] boxShadow rounded w-[820px] h-[670px] `}>
+              <div className="upper relative flex justify-center items-center shadow w-full h-[9%] text-lg font-bold tracking-wide bg-gray-100">Bhushan's Post  <MdClose className='absolute right-2 top-2 cursor-pointer ' onClick={() => { setChild(null); setActive(false) }} /></div>
 
               <div ref={middleDivRef} id='middle' className="middle flex flex-col gap-3 pt-3 overflow-y-auto no-scrollbar w-full h-[74%] ">
                 <div className='UserInfo flex items-center gap-3 px-4'>
@@ -663,7 +665,7 @@ function Post({ postInfo, setPostDeleted, setPostCommentCount }) {
 
         <div className='WhatsOnUsersMind px-4 '> {postInfo.content} </div>
 
-        <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : ''} </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" onDoubleClick={()=>{likePost()}}/> </div>
+        <div className='Photo relative w-full px-1'> <span className='absolute top-[45%] left-[45%] text-white font-bold '> {likeMessage == 'success' ? <p className='popLike'><img className='w-[40px] ' src={likegif} alt="" /></p> : ''} {dislikeMessage == 'success' ? <p className='popDislike'> <img className='w-[40px] ' src={dislikegif} alt="" /> </p> : ''} </span> <img className='w-full rounded' src={postInfo.images[0]} alt="" onDoubleClick={() => { likePost() }} /> </div>
 
         <div className='LikedCommentsSharedCounts flex justify-between px-4'>
           <div className="likedCounts flex items-center gap-2"> <BiSolidLike className={`${likeMessage === 'success' ? 'text-lg text-blue-500 liked' : 'text-blue-500'}`} /> <span className='font-semibold text-sm transition-all duration-700'>{likesCount}</span> </div>

@@ -223,32 +223,38 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
     getPosts()
   }, [postDeleted])
 
+
+
   useEffect(() => {
-    const handleClick = (e) => {
-      if (child && !child.current.contains(e.target) && e.target !== parent) {
-        setActive(false);
-        setChild(null);
-        setParent(null);
+
+    const handleClicks = (e) => {
+
+      let parentElement = e.target.closest('.parent')
+
+      if (parentElement) {
+        setActive(!active)
+        setParent(parentElement.classList[1])
+        setChild(parentElement.nextElementSibling.classList[1])
       }
+      else if (e.target.closest('.child')) {
+
+      }
+      else {
+        setChild(null)
+        setActive(false)
+      }
+
     };
 
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClicks);
+
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClicks);
     };
-  }, [child, parent]);
 
 
+  }, [child, parent, active]);
 
-  const handleButtonClick = (e, childRef) => {
-    if (childRef.current !== child) {
-      setParent(e.target);
-      setChild(childRef);
-      setActive(true);
-    } else {
-      setActive(!active);
-    }
-  };
 
 
 
@@ -285,8 +291,6 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
         </div>
 
 
-
-
         <div className="center w-[55%] px-16 bg-white rounded-lg border flex flex-col  gap-4 items-center pt-4 overflow-y-auto no-scrollbar">
 
 
@@ -302,7 +306,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
           </div>
 
 
-          <div className="createPost w-full rounded-lg p-3 flex flex-col gap-3 boxShadow" onClick={(e) => { handleButtonClick(e, createPostPopupD) }}>
+          <div  className={`parent createPostParent w-full rounded-lg p-3 flex flex-col gap-3 boxShadow`}>
 
             <div className="upper flex items-center justify-between ">
               <div className="profilePhoto flex justify-center items-center rounded-full w-[40px] h-[40px] bg-slate-400 border "> <img className='rounded-full' src={usericon} alt="" /> </div>
@@ -320,11 +324,11 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
           </div>
 
 
-          <div ref={createPostPopupD} className={`w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] z-50 ${child === createPostPopupD && active ? 'showFromTop  ' : 'hideFromBottom'}`} onClick={(e) => { createPostContainerD.current.contains(e.target) ? '' : setChild(null) }}>
+          <div className={`child createPostParent w-screen h-screen fixed left-0 top-0 backdrop-blur-[2px] z-50 ${child === 'createPostParent' && active ? 'showFromTop' : 'hideFromBottom'}`}>
 
-            <div ref={createPostContainerD} className={`createComment bg-white absolute flex flex-col justify-between gap-3 p-3  left-[23.3%] bottom-[5%] rounded-lg w-[820px] h-[670px] boxShadow `}>
+            <div className={`createComment bg-white absolute flex flex-col justify-between gap-3 p-3  left-[23.3%] bottom-[5%] rounded-lg w-[820px] h-[670px] boxShadow `}>
 
-              <div className="heading p-3 border rounded-lg bg-slate-100 flex justify-center text-lg tracking-wider font-bold"> Create post </div>
+              <div className="heading p-3 border rounded-lg bg-slate-100 flex justify-center text-lg tracking-wider font-bold" onClick={()=>{setChild(null)}}> Create post </div>
 
               <div className='profilephoto&name flex justify-between items-center p-3 bg-slate-100 rounded-lg'>
 
@@ -372,7 +376,7 @@ function Home({ searchInput, field, isSearching, setIsSearching }) {
 
               </div>
 
-              <div className="postBtn border w-full h-[35px] rounded-lg bg-blue-500 flex justify-center items-center text-white cursor-pointer an" onClick={() => { createPost() }}> Post </div>
+              <div className="postBtn border w-full h-[35px] rounded-lg bg-blue-500 flex justify-center items-center text-white cursor-pointer an" onClick={() => { createPost(); setChild(null) }}> Post </div>
 
             </div>
 

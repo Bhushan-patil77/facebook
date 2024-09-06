@@ -58,36 +58,41 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
     setIsLoggedIn(localStorage.getItem('user') != null)
   })
 
+  useEffect(() => {
+    console.log(child, parent);
 
+  }, [child, parent])
 
   useEffect(() => {
-    const handleClick = (e) => {
-      if (child && !child.current.contains(e.target) && e.target !== parent) {
-        setActive(false);
-        setChild(null);
-        setParent(null);
+
+    const handleClicks = (e) => {
+
+      let parentElement = e.target.closest('.parent')
+
+      if (parentElement) {
+        setActive(!active)
+        setParent(parentElement.classList[1])
+        setChild(parentElement.nextElementSibling.classList[1])
       }
+      else if (e.target.closest('.child')) {
+
+      }
+      else {
+        setChild(null)
+        setActive(false)
+      }
+
     };
 
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClicks);
+
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClicks);
     };
-  }, [child, parent]);
 
 
+  }, [child, parent, active]);
 
-
-
-  const handleButtonClick = (e, childRef) => {
-    if (childRef.current !== child) {
-      setParent(e.target);
-      setChild(childRef);
-      setActive(true);
-    } else {
-      setActive(!active);
-    }
-  };
 
   const handleLogout = () => {
 
@@ -111,16 +116,16 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
 
         <div className='left relative flex gap-4'>
           <img className=' w-[40px] h-[40px] rounded-full' src={logoImage} alt="" />
-          <div className='w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} onFocus={(e) => { handleButtonClick(e, filterOptions) }} /> </div>
-          <div ref={filterOptions} className={`absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === filterOptions && active ? 'showFromTop z-60' : 'hideFromBottom'}`}>
+          <div className='parent searchInputParent w-[240px] h-[40px] flex items-center justify-center p- border rounded-3xl bg-[#f0f2f5]'><IoIosSearch className='text-xl text-gray-400' /> <input className='bg-transparent outline-none text-lg  pl-3 w-[80%]' type="text" placeholder='Search Facebook' value={inputText} onChange={(e) => { navigate('/'); setInputText(e.target.value); setSearchInput(e.target.value) }} /> </div>
+          <div className={` child searchInputChild absolute top-[120%] w-full bg-white border rounded-lg p-3 pb-6 boxShadow ${child === 'searchInputChild' && active ? 'showFromTop z-60' : 'hideFromBottom'}`}>
             <ul className='flex flex-col gap-3'>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={() => { setField('All'); setSearchField('All') }}><BsGridFill /> All</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'author.name' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay2 ' : 'hideFromBottom'} `} onClick={() => { setField('author.name'); setSearchField('author.name') }}> <BsPeopleFill /> People</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Photos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay4' : 'hideFromBottom'} `} onClick={() => { setField('Photos'); setSearchField('Photos') }}> <IoMdPhotos /> Photos</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Videos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay5' : 'hideFromBottom'} `} onClick={() => { setField('Videos'); setSearchField('Videos') }}> <BiSolidVideos /> Videos</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Pages' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay6' : 'hideFromBottom'} `} onClick={() => { setField('Pages'); setSearchField('Pages') }}> <RiPagesFill /> Pages</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Places' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay7' : 'hideFromBottom'} `} onClick={() => { setField('Places'); setSearchField('Places') }}> <FaPlaceOfWorship /> Places</li>
-              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Groups' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child === filterOptions && active ? 'showFromTop z-50 delay8' : 'hideFromBottom'} `} onClick={() => { setField('Groups'); setSearchField('Groups') }}> <MdGroups /> Groups</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'All' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay1' : 'hideFromBottom'} `} onClick={() => { setField('All'); setSearchField('All') }}><BsGridFill /> All</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'author.name' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay2 ' : 'hideFromBottom'} `} onClick={() => { setField('author.name'); setSearchField('author.name') }}> <BsPeopleFill /> People</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Photos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay4' : 'hideFromBottom'} `} onClick={() => { setField('Photos'); setSearchField('Photos') }}> <IoMdPhotos /> Photos</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Videos' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay5' : 'hideFromBottom'} `} onClick={() => { setField('Videos'); setSearchField('Videos') }}> <BiSolidVideos /> Videos</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Pages' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay6' : 'hideFromBottom'} `} onClick={() => { setField('Pages'); setSearchField('Pages') }}> <RiPagesFill /> Pages</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Places' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay7' : 'hideFromBottom'} `} onClick={() => { setField('Places'); setSearchField('Places') }}> <FaPlaceOfWorship /> Places</li>
+              <li className={`flex items-center gap-4 text-lg font-semibold  cursor-pointer p-2 rounded-lg ${searchField === 'Groups' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'} ${child == 'searchInputChild' && active ? 'showFromTop z-50 delay8' : 'hideFromBottom'} `} onClick={() => { setField('Groups'); setSearchField('Groups') }}> <MdGroups /> Groups</li>
             </ul>
           </div>
         </div>
@@ -135,9 +140,14 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
         <div className="right  flex gap-3">
 
           {
-            isLoggedIn && <div className={`relative flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`} onClick={(e) => { handleButtonClick(e, profileDropdown) }}>
-              <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center  bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"> <img className=' w-full h-full object-cover rounded-full' src={profilePhoto || userIcon} alt="" /> </div>
-              <div ref={profileDropdown} className={`profileDropdown absolute w-[344px] -right-[160px] bg-white rounded-lg boxShadow py-4 top-[120%] cursor-pointer ${child === profileDropdown && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
+            isLoggedIn &&
+            <div className='relative'>
+
+              <div className={`parent profileDropdownParent  flex justify-center items-center gap-3 cursor-pointer transition-all duration-700 ${isLoggedIn ? 'opacity-100' : 'opacity-0'}`}>
+                <span className='font-semibold opacity-0 mountAnimation'>{user.name}</span> <div className="flex justify-center items-center  bg-[#e4e6eb] w-[40px] h-[40px] rounded-full opacity-0 mountAnimation"> <img id='parent-profileDropdown' className=' w-full h-full object-cover rounded-full' src={profilePhoto || userIcon} alt="" /> </div>
+              </div>
+
+              <div className={`child profileDropdownChild absolute w-[344px] -right-[160px] bg-white rounded-lg boxShadow py-4 top-[120%] cursor-pointer ${child === 'profileDropdownChild' && active ? 'showFromTop z-50' : 'hideFromBottom'}`}>
 
                 <div className='flex justify-center m-3 '>
                   <div className="flex flex-col p-3 gap-3 w-full shadow rounded-lg">
@@ -155,6 +165,7 @@ function Navbar({ setSearchInput, setField, setIsSearching }) {
                   <li className='flex items-center gap-3 rounded-lg p-2 hover:bg-slate-100 relative ' onClick={() => { handleLogout() }}> <span className='flex justify-center items-center w-[36px] h-[36px] bg-gray-200 rounded-full'> <img className='flex justify-center items-center w-[20px] h-[20px]' src={logoutIcon} alt="" />  </span>  <p className='text-lg '  >Log out</p> </li>
                 </ul>
               </div>
+
             </div>
           }
 
